@@ -6,9 +6,9 @@
 </description>
     <link>https://anthonydeguzman.com/blog/</link>
     <atom:link href="https://anthonydeguzman.com/blog/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 10 Nov 2016 14:05:08 -0500</pubDate>
-    <lastBuildDate>Thu, 10 Nov 2016 14:05:08 -0500</lastBuildDate>
-    <generator>Jekyll v3.1.2</generator>
+    <pubDate>Thu, 10 Nov 2016 16:13:44 -0500</pubDate>
+    <lastBuildDate>Thu, 10 Nov 2016 16:13:44 -0500</lastBuildDate>
+    <generator>Jekyll v3.3.0</generator>
     
       <item>
         <title>AdWords Scripts Tutorial: Basic Fundamentals</title>
@@ -41,8 +41,8 @@
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;var keywordSelector = AdWordsApp.keywords()
 .withLimit(20)
-.forDateRange(&#39;LAST_7_DAYS&#39;)
-.orderBy(&#39;Conversions DESC&#39;)
+.forDateRange('LAST_7_DAYS')
+.orderBy('Conversions DESC')
 .get();
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
@@ -95,8 +95,8 @@
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;var keywordSelector = AdWordsApp.keywords()
 .withLimit(20)
-.forDateRange(&#39;LAST_7_DAYS&#39;)
-.orderBy(&#39;Conversions DESC&#39;)
+.forDateRange('LAST_7_DAYS')
+.orderBy('Conversions DESC')
 .get();
 
 while (keywordSelector.hasNext()) { 
@@ -124,8 +124,8 @@ Logger.log(keywordText);
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;function main() {
         var keywordSelector = AdWordsApp.keywords()
         .withLimit(20)
-        .forDateRange(&#39;LAST_7_DAYS&#39;)
-        .orderBy(&#39;Conversions DESC&#39;)
+        .forDateRange('LAST_7_DAYS')
+        .orderBy('Conversions DESC')
         .get();
 
         while (keywordSelector.hasNext()) { 
@@ -144,9 +144,9 @@ Logger.log(keywordText);
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;function main() {
         var campaignSelector = AdWordsApp.campaigns()
         .withLimit(10)
-        .withCondition(&#39;Status = ENABLED&#39;)
-        .forDateRange(&#39;LAST_7_DAYS&#39;)
-        .orderBy(&#39;Conversions DESC&#39;)
+        .withCondition('Status = ENABLED')
+        .forDateRange('LAST_7_DAYS')
+        .orderBy('Conversions DESC')
         .get();
 
         while (campaignSelector.hasNext()) { 
@@ -258,8 +258,8 @@ Logger.log(keywordText);
 
 &lt;p&gt;A workaround is to replace the &lt;strong&gt;template-tags.php &lt;/strong&gt;file in the &lt;span style=&quot;text-decoration: underline;&quot;&gt;parent theme&lt;/span&gt; each time you update (defeats the purpose of a child theme, I know) — or you can choose not to update the theme entirely.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;if ( get_the_time( &#39;U&#39; ) !== get_the_modified_time( &#39;U&#39; ) ) {
- $time_string = &#39;&amp;lt;time class=&quot;entry-date published&quot; datetime=&quot;%1$s&quot;&amp;gt;&amp;lt;span itemprop=&quot;dateCreated datePublished&quot;&amp;gt;%2$s&amp;lt;/span&amp;gt;&amp;lt;/time&amp;gt;&amp;lt;time class=&quot;updated&quot; datetime=&quot;%3$s&quot;&amp;gt;&amp;lt;span itemprop=&quot;dateModified&quot;&amp;gt;%4$s&amp;lt;/span&amp;gt;&amp;lt;/time&amp;gt;&#39;;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;if ( get_the_time( 'U' ) !== get_the_modified_time( 'U' ) ) {
+ $time_string = '&amp;lt;time class=&quot;entry-date published&quot; datetime=&quot;%1$s&quot;&amp;gt;&amp;lt;span itemprop=&quot;dateCreated datePublished&quot;&amp;gt;%2$s&amp;lt;/span&amp;gt;&amp;lt;/time&amp;gt;&amp;lt;time class=&quot;updated&quot; datetime=&quot;%3$s&quot;&amp;gt;&amp;lt;span itemprop=&quot;dateModified&quot;&amp;gt;%4$s&amp;lt;/span&amp;gt;&amp;lt;/time&amp;gt;';
  }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
@@ -274,11 +274,11 @@ Logger.log(keywordText);
 
 &lt;p&gt;Last but not least, let’s add the author markup&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;if ( &#39;post&#39; == get_post_type() ) {
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;if ( 'post' == get_post_type() ) {
  if ( is_singular() || is_multi_author() ) {
- printf( &#39;&amp;lt;span class=&quot;byline&quot;&amp;gt;&amp;lt;span class=&quot;author vcard&quot;&amp;gt;&amp;lt;span class=&quot;screen-reader-text&quot;&amp;gt;%1$s &amp;lt;/span&amp;gt;&amp;lt;a class=&quot;url fn n&quot; href=&quot;%2$s&quot;&amp;gt;&amp;lt;span itemprop=&quot;author&quot;&amp;gt;%3$s&amp;lt;/span&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&#39;,
- _x( &#39;Author&#39;, &#39;Used before post author name.&#39;, &#39;twentyfifteen&#39; ),
- esc_url( get_author_posts_url( get_the_author_meta( &#39;ID&#39; ) ) ),
+ printf( '&amp;lt;span class=&quot;byline&quot;&amp;gt;&amp;lt;span class=&quot;author vcard&quot;&amp;gt;&amp;lt;span class=&quot;screen-reader-text&quot;&amp;gt;%1$s &amp;lt;/span&amp;gt;&amp;lt;a class=&quot;url fn n&quot; href=&quot;%2$s&quot;&amp;gt;&amp;lt;span itemprop=&quot;author&quot;&amp;gt;%3$s&amp;lt;/span&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;',
+ _x( 'Author', 'Used before post author name.', 'twentyfifteen' ),
+ esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
  get_the_author()
  );
  }
@@ -299,9 +299,9 @@ Logger.log(keywordText);
 
 &lt;p&gt;In the &lt;strong&gt;functions.php&lt;/strong&gt; file of your child theme, add the below code to add &lt;code class=&quot;highlighter-rouge&quot;&gt;itemprop=&quot;image&quot;&lt;/code&gt; to all of your featured images.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;add_filter(&#39;wp_get_attachment_image_attributes&#39;, &#39;ipwp_img_attr&#39;, 10, 2);
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;add_filter('wp_get_attachment_image_attributes', 'ipwp_img_attr', 10, 2);
 function ipwp_img_attr($attr) {
- $attr[&#39;itemprop&#39;] = &#39;image&#39;;
+ $attr['itemprop'] = 'image';
  return $attr;
 }
 &lt;/code&gt;&lt;/pre&gt;
