@@ -1,0 +1,20 @@
+@media only screen and (max-width: 768px) {
+	.container {
+		border-radius:0;
+		border:none;
+	}
+
+	.feature img {
+		border-radius:0;
+		border:none;
+	}
+
+	.trendsetters img {
+		border-radius:0;
+		border:none;
+	}
+
+	.trendsetters ul li {
+		margin-bottom: 10px;
+	}
+}
