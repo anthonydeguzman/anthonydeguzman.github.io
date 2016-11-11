@@ -4,10 +4,10 @@
     <title>blog</title>
     <description>digital marketing, seo, sem, social, development.
 </description>
-    <link>http://localhost:4000/blog/</link>
-    <atom:link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 10 Nov 2016 20:58:45 -0500</pubDate>
-    <lastBuildDate>Thu, 10 Nov 2016 20:58:45 -0500</lastBuildDate>
+    <link>https://anthonydeguzman.com/blog/</link>
+    <atom:link href="https://anthonydeguzman.com/blog/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Thu, 10 Nov 2016 21:05:22 -0500</pubDate>
+    <lastBuildDate>Thu, 10 Nov 2016 21:05:22 -0500</lastBuildDate>
     <generator>Jekyll v3.3.0</generator>
     
       <item>
@@ -163,8 +163,8 @@ Logger.log(keywordText);
 &lt;p&gt;Leave a comment below if this has proved useful or helpful — and I’ll keep the tutorials going.&lt;/p&gt;
 </description>
         <pubDate>Mon, 22 Jun 2015 09:00:12 -0400</pubDate>
-        <link>http://localhost:4000/blog/adwords-scripts-basics/</link>
-        <guid isPermaLink="true">http://localhost:4000/blog/adwords-scripts-basics/</guid>
+        <link>https://anthonydeguzman.com/blog/adwords-scripts-basics/</link>
+        <guid isPermaLink="true">https://anthonydeguzman.com/blog/adwords-scripts-basics/</guid>
         
         
         <category>AdWords Scripts</category>
@@ -318,8 +318,8 @@ function ipwp_img_attr($attr) {
 &lt;p&gt;If you have any questions, feel free to comment below. Don’t forget to share it with anyone who’s looking to get a deeper, and more technical understanding of Schema!&lt;/p&gt;
 </description>
         <pubDate>Tue, 03 Mar 2015 21:22:53 -0500</pubDate>
-        <link>http://localhost:4000/blog/schema-wordpress/</link>
-        <guid isPermaLink="true">http://localhost:4000/blog/schema-wordpress/</guid>
+        <link>https://anthonydeguzman.com/blog/schema-wordpress/</link>
+        <guid isPermaLink="true">https://anthonydeguzman.com/blog/schema-wordpress/</guid>
         
         
         <category>On-page SEO</category>
@@ -399,8 +399,8 @@ function ipwp_img_attr($attr) {
 &lt;p&gt;If you liked this article share it with your friends and family to give them an edge on their job search!&lt;/p&gt;
 </description>
         <pubDate>Tue, 03 Feb 2015 03:30:49 -0500</pubDate>
-        <link>http://localhost:4000/blog/indeed-search/</link>
-        <guid isPermaLink="true">http://localhost:4000/blog/indeed-search/</guid>
+        <link>https://anthonydeguzman.com/blog/indeed-search/</link>
+        <guid isPermaLink="true">https://anthonydeguzman.com/blog/indeed-search/</guid>
         
         
         <category>Practical SEO</category>
