@@ -2,12 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>blog</title>
-    <description>digital marketing, seo, sem, social, development.
-</description>
+    <description>digital marketing, seo, sem, social, development.</description>
     <link>https://anthonydeguzman.com/blog/</link>
     <atom:link href="https://anthonydeguzman.com/blog/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 10 Nov 2016 21:11:46 -0500</pubDate>
-    <lastBuildDate>Thu, 10 Nov 2016 21:11:46 -0500</lastBuildDate>
+    <pubDate>Sat, 12 Nov 2016 14:18:26 -0500</pubDate>
+    <lastBuildDate>Sat, 12 Nov 2016 14:18:26 -0500</lastBuildDate>
     <generator>Jekyll v3.1.2</generator>
     
       <item>
@@ -175,7 +174,7 @@ Logger.log(keywordText);
         <title>How to Add Schema for WordPress Twenty Fifteen</title>
         <description>&lt;p&gt;Since the Google Hummingbird update in 2013, Google has changed their ranking algorithms from simple/phrase-type keywords – to entity and query-like ones.&lt;/p&gt;
 
-&lt;p&gt;In the words of &lt;a href=&quot;http://themoralconcept.net&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;Josh Bachynski&lt;/a&gt;, SEO is all about ranking &lt;em&gt;things, not strings. &lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;In the words of &lt;a href=&quot;http://themoralconcept.net&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;Josh Bachynski&lt;/a&gt;, SEO is all about ranking things, not strings.&lt;/p&gt;
 
 &lt;p&gt;As a result, Schema markup has never been more important for on-page optimization. However, despite being simple to understand, and easy to implement on a simple, static HTML website —  applying Schema markup to a common CMS, such as WordPress, can be a bit of a nightmare.&lt;/p&gt;
 
@@ -193,7 +192,7 @@ Logger.log(keywordText);
 
 &lt;p&gt;I recently published an article (my first one, in fact) targeting the keyword &lt;em&gt;indeed resume search&lt;/em&gt;, but submitted it fully packed with Schema markup before-hand. The post has little to no backlinks, and has maybe 4-5 social shares.&lt;/p&gt;
 
-&lt;p&gt;It’s not a first-place ranking, but it’s definitely on the first page. It’s good to note that the competition isn’t so bad, since I’m targeting Google Canada —  although it doesn’t help that I’m still competing with Indeed’s own domain, as well as about.com.&amp;lt;figure id=”attachment_179” style=”width: 660px” class=”wp-caption alignnone”&lt;/p&gt;
+&lt;p&gt;It’s not a first-place ranking, but it’s definitely on the first page. It’s good to note that the competition isn’t so bad, since I’m targeting Google Canada —  although it doesn’t help that I’m still competing with Indeed’s own domain, as well as about.com.&lt;/p&gt;
 
 &lt;amp-img width=&quot;660&quot; height=&quot;370&quot; alt=&quot;how to add schema&quot; layout=&quot;responsive&quot; src=&quot;/blog/assets/wp-content/uploads/2015/03/schema-seo-wordpress.jpg&quot;&gt;&lt;/amp-img&gt;
 
