@@ -32,3 +32,9 @@ gulp.task("compress-css", (callback) => {
 
 // Combined task
 gulp.task("compress", gulp.parallel("compress-js", "compress-css"));
+
+// Watch task
+gulp.task("watch", function () {
+  gulp.watch("src/js/*.js", gulp.series("compress-js"));
+  gulp.watch("src/css/*.css", gulp.series("compress-css"));
+});
