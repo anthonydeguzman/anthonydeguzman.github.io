@@ -1,10 +1,14 @@
 {
   "name": "anthonydeguzman.github.io",
   "version": "1.0.0",
+  "engines": {
+    "node": ">=18.x"
+  },
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "gulp compress"
   },
   "repository": {
     "type": "git",
@@ -17,8 +21,9 @@
   },
   "homepage": "https://github.com/anthonydeguzman/anthonydeguzman.github.io#readme",
   "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-uglify": "^2.0.0",
-    "pump": "^1.0.1"
+    "gulp": "^5.0.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-uglify": "^3.0.2",
+    "pump": "^3.0.2"
   }
 }
