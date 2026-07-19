@@ -1,348 +1,345 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Anthony De Guzman | Developer & Growth Strategist</title>
-	<meta name="description"
-		content="Anthony De Guzman - Developer, Startup Founder, and Growth Marketing Specialist based in Toronto.">
-
-	<!-- Meta tags -->
-	<meta property="og:title" content="Anthony De Guzman | Developer & Growth Strategist">
-	<meta property="og:type" content="website">
-	<meta property="og:url" content="https://anthonydeguzman.com/">
-	<meta property="og:description" content="Toronto-based developer, startup founder, and growth marketing specialist.">
-
-	<!-- Fonts -->
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-	<!-- Favicon -->
-	<link rel="icon" href="favicon.ico" type="image/x-icon">
-
-	<!-- Custom CSS -->
-	<link rel="stylesheet" href="styles-min.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const revealIntro = () => {
+        root.classList.remove('intro');
+        document.querySelectorAll('.intro-stream').forEach((element) => {
+          element.classList.add('is-streamed');
+          element.querySelectorAll('.stream-unit').forEach((unit) => unit.classList.add('visible'));
+        });
+      };
+      root.classList.add('js');
+      window.adg3RevealIntro = revealIntro;
+      setTimeout(() => root.classList.contains('intro') && revealIntro(), 2600);
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      try {
+        if (!sessionStorage.getItem('adg3:intro')) root.classList.add('intro');
+      } catch (_) {
+        root.classList.add('intro');
+      }
+    })();
+  </script>
+  <title>Anthony De Guzman — AI Engineer &amp; Co-founder, Breezeful</title>
+  <meta name="description" content="Anthony De Guzman is a Toronto AI engineer and Breezeful co-founder building LLM applications, agent systems, and growth-minded products.">
+  <link rel="canonical" href="https://anthonydeguzman.com/">
+  <meta name="theme-color" content="#161310">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://anthonydeguzman.com/">
+  <meta property="og:title" content="Anthony De Guzman — AI Engineer &amp; Co-founder">
+  <meta property="og:description" content="A model card for a human: eleven years across SEO, growth, full-stack product engineering, and applied AI.">
+  <meta property="og:image" content="https://anthonydeguzman.com/assets/og/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Anthony De Guzman, AI engineer and co-founder — adg-3 model card">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Anthony De Guzman — AI Engineer &amp; Co-founder">
+  <meta name="twitter:description" content="A model card for a human: eleven years across SEO, growth, full-stack product engineering, and applied AI.">
+  <meta name="twitter:image" content="https://anthonydeguzman.com/assets/og/og.png">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preload" href="/fonts/martian-mono-wght-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/newsreader-italic-wght-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="modulepreload" href="/js/main.js">
+  <link rel="modulepreload" href="/js/palette.js">
+  <link rel="modulepreload" href="/js/prompts.js">
+  <link rel="modulepreload" href="/js/stream.js">
+  <link rel="stylesheet" href="/css/main.css">
+  <script type="importmap">{"imports":{"three":"/vendor/three/three.module.min.js"}}</script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Anthony De Guzman",
+      "url": "https://anthonydeguzman.com/",
+      "email": "mailto:email@anthonydeguzman.com",
+      "jobTitle": "AI Engineer and Co-founder",
+      "worksFor": {"@type": "Organization", "name": "Breezeful", "url": "https://breezeful.com"},
+      "alumniOf": {"@type": "CollegeOrUniversity", "name": "University of Waterloo"},
+      "knowsLanguage": ["en", "fr"],
+      "knowsAbout": ["Artificial intelligence", "Large language models", "Software engineering", "Growth strategy", "Search engine optimization"],
+      "sameAs": ["https://www.linkedin.com/in/anthonydeguzman"]
+    }
+  </script>
 </head>
-
 <body>
-	<!-- Header -->
-	<header class="header">
-		<div class="container">
-			<a href="#" class="logo">AD<span class="accent">.</span></a>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-			<nav class="desktop-nav">
-				<ul>
-					<li><a href="#about" class="active">About</a></li>
-					<li><a href="#experience">Experience</a></li>
-					<li><a href="#skills">Skills</a></li>
-					<li><a href="#projects">Projects</a></li>
-				</ul>
-			</nav>
+  <header class="site-header">
+    <a class="wordmark" href="#top" aria-label="adg-3 — Anthony De Guzman, home">
+      <span>adg-3</span><i aria-hidden="true"></i>
+    </a>
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a href="#about">Model Card</a>
+      <a href="#experience">Training Run</a>
+      <a href="#projects">Evals</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="nav-prompt" type="button" data-prompt-open aria-haspopup="dialog">
+      <span>Prompt</span><kbd>/</kbd>
+    </button>
+  </header>
 
-			<button class="mobile-menu-btn" aria-label="Toggle Menu">
-				<span></span>
-				<span></span>
-				<span></span>
-			</button>
-		</div>
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="hero-poster" aria-hidden="true">
+        <canvas id="terrain" tabindex="-1"></canvas>
+      </div>
+      <div class="hero-shade" aria-hidden="true"></div>
+      <div class="hero-content">
+        <div class="hero-topline">
+          <span class="model-chip"><i></i> model / adg-3</span>
+          <span class="hero-status" aria-live="polite">weights ready · context 11 years</span>
+        </div>
+        <p class="eyebrow">Toronto, CA · inference available</p>
+        <h1 id="hero-title" class="intro-stream" data-intro="name">Anthony De Guzman</h1>
+        <p class="hero-tagline intro-stream human-voice" data-intro="tagline">Eleven years of retraining: SEO → growth → full‑stack founder → AI. Still descending.</p>
+        <div class="hero-actions">
+          <button class="prompt-cta" type="button" data-prompt-open aria-haspopup="dialog">
+            <span>Prompt this model</span><kbd>/</kbd>
+          </button>
+          <a href="#about">Read the model card <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+      <div class="hero-axis" aria-hidden="true"><span>loss</span><span>training time →</span></div>
+    </section>
 
-		<nav class="mobile-nav">
-			<ul>
-				<li><a href="#about">About</a></li>
-				<li><a href="#experience">Experience</a></li>
-				<li><a href="#skills">Skills</a></li>
-				<li><a href="#projects">Projects</a></li>
-			</ul>
-		</nav>
-	</header>
+    <section class="section model-card" id="about" aria-labelledby="about-title">
+      <span id="skills" class="anchor-alias" aria-hidden="true"></span>
+      <header class="section-heading reveal">
+        <p class="section-kicker"><span>01 / MODEL CARD</span> — who this is</p>
+        <h2 id="about-title">Architecture, capabilities,<br>and known limitations.</h2>
+      </header>
 
-	<main>
-		<!-- Hero Section -->
-		<section id="about" class="hero-section">
-			<div class="container">
-				<h1>Anthony De Guzman</h1>
-				<h2>Developer, Startup Founder & Growth Strategist</h2>
-				<p>
-					I specialize in building and scaling digital products with a focus on growth marketing,
-					development, and user acquisition. With experience as a Head of Growth and co-founder,
-					I bring a versatile skill set spanning technical development and strategic marketing.
-				</p>
-				<div class="btn-group">
-					<a href="#experience" class="btn btn-secondary">View my experience</a>
-				</div>
-			</div>
-		</section>
+      <div class="model-layout">
+        <div class="model-overview reveal">
+          <h3>Overview</h3>
+          <dl>
+            <div><dt>developer</dt><dd>Anthony De Guzman</dd></div>
+            <div><dt>base</dt><dd>Toronto, CA</dd></div>
+            <div><dt>languages</dt><dd>EN, FR</dd></div>
+            <div><dt>education</dt><dd>BA, University of Waterloo, 2014</dd></div>
+            <div><dt>current</dt><dd>Co-founder @ Breezeful</dd></div>
+            <div><dt>status</dt><dd><span class="status-dot"></span> v3.0 training in progress</dd></div>
+          </dl>
+        </div>
 
-		<!-- Experience Section -->
-		<section id="experience" class="experience-section">
-			<div class="container">
-				<h2 class="section-title">
-					<span class="icon-briefcase"></span>
-					Work Experience
-				</h2>
+        <div class="training-data reveal">
+          <h3>Training data</h3>
+          <p class="human-voice">I started by learning how people find things, then learned how products grow, and eventually how to build the products themselves. Now I’m focused on applied AI: engineering with LLMs, designing agent systems and evals, and turning emerging capabilities into useful product experiences. The through-line is the same as it was in SEO—understand the system, measure what matters, and keep improving the output.</p>
+        </div>
+      </div>
 
-				<div class="timeline">
-					<div class="timeline-item">
-						<div class="timeline-marker"></div>
-						<div class="timeline-date">January 2020 - Present</div>
-						<h3>Co-founder</h3>
-						<p class="timeline-company">Breezeful</p>
-						<div class="timeline-content">
-							<p>• Leads all tech initiatives at Breezeful, a Y-combinator backed mortgage-tech startup in the U.S. and
-								Canadian markets</p>
-							<p>• Develops the company's tech stack: Full stack Typescript (Javascript): React.js front-end; Node.js
-								back-end, Redis and session based auth, Postgres (SQL) with dev-ops across AWS, GCP and Heroku.</p>
-							<p>• Specializes in feature-based modular monoliths with pub/sub and redis-queue wiring</p>
-							<p>• Strong in SQL, data visualization and non ORM reliant development</p>
-							<p>• Manages payroll, benefits, commissions and other misc company operational responsibilities</p>
-						</div>
-					</div>
-					<div class="timeline-item">
-						<div class="timeline-marker"></div>
-						<div class="timeline-date">December 2017 - December 2019</div>
-						<h3>Head of Growth</h3>
-						<p class="timeline-company">Cover Financial Inc.</p>
-						<div class="timeline-content">
-							<p>• Led all growth and marketing efforts</p>
-							<p>• Built out growth team from scratch (total of 6 team members)</p>
-							<p>• Headed up paid/organic user acquisition, retention/activation and content/PR</p>
-							<p>• Managed CPA/CPL and LTV metrics, created growth dashboards via SQL & Periscope Data</p>
-							<p>• Executed on new growth channels across web, mobile, apps, and messenger</p>
-							<p>• Led Cover's referral program implementation</p>
-						</div>
-					</div>
+      <div class="capabilities reveal">
+        <div class="subhead">
+          <h3>Capabilities</h3>
+          <p>relative strength / 5-notch eval</p>
+        </div>
+        <ul class="capability-list">
+          <li><span>TypeScript / JavaScript</span><span class="notches" role="img" aria-label="5 out of 5"><i></i><i></i><i></i><i></i><i></i></span></li>
+          <li><span>React / Next.js</span><span class="notches" role="img" aria-label="5 out of 5"><i></i><i></i><i></i><i></i><i></i></span></li>
+          <li><span>Python &amp; LLMs</span><span class="notches" role="img" aria-label="4 out of 5"><i></i><i></i><i></i><i></i><i class="off"></i></span></li>
+          <li><span>SQL &amp; PostgreSQL</span><span class="notches" role="img" aria-label="5 out of 5"><i></i><i></i><i></i><i></i><i></i></span></li>
+          <li><span>Ruby on Rails</span><span class="notches" role="img" aria-label="4 out of 5"><i></i><i></i><i></i><i></i><i class="off"></i></span></li>
+          <li><span>SEO &amp; content strategy</span><span class="notches" role="img" aria-label="5 out of 5"><i></i><i></i><i></i><i></i><i></i></span></li>
+          <li><span>Paid acquisition</span><span class="notches" role="img" aria-label="4 out of 5"><i></i><i></i><i></i><i></i><i class="off"></i></span></li>
+          <li><span>Analytics &amp; data visualization</span><span class="notches" role="img" aria-label="4 out of 5"><i></i><i></i><i></i><i></i><i class="off"></i></span></li>
+          <li><span>Growth experimentation</span><span class="notches" role="img" aria-label="5 out of 5"><i></i><i></i><i></i><i></i><i></i></span></li>
+        </ul>
+      </div>
 
-					<div class="timeline-item">
-						<div class="timeline-marker"></div>
-						<div class="timeline-date">March 2017 - December 2017</div>
-						<h3>SEO Specialist</h3>
-						<p class="timeline-company">Shopify Inc.</p>
-						<div class="timeline-content">
-							<p>• Led SEO and Growth initiatives</p>
-							<p>• Managed Reporting, Automation and Scaling</p>
-							<p>• Implemented Audits via Ruby on Rails (RoR)</p>
-							<p>• Worked on Shopify Brochure, Exchange, Burst, and Shopify Plus</p>
-						</div>
-					</div>
+      <aside class="limitations reveal" aria-labelledby="limitations-title">
+        <div class="subhead">
+          <h3 id="limitations-title">Known limitations</h3>
+          <p>documented, not patched</p>
+        </div>
+        <ol>
+          <li><span>01</span>Known to rebuild working systems in TypeScript.</li>
+          <li><span>02</span>Will optimize anything with a measurable metric.</li>
+          <li><span>03</span>Output quality degrades without coffee context.</li>
+          <li><span>04</span>May ask “what are we actually solving?” before producing tokens.</li>
+        </ol>
+      </aside>
+    </section>
 
-					<div class="timeline-item">
-						<div class="timeline-marker"></div>
-						<div class="timeline-date">January 2016 - February 2017</div>
-						<h3>SEO Manager</h3>
-						<p class="timeline-company">Saatchi & Saatchi</p>
-						<div class="timeline-content">
-							<p>• Bilingual SEO Manager for clients including Toyota Canada, Lexus, Scion, and TJX Canada</p>
-							<p>• Developed organic search strategy for new business under Publicis Groupe</p>
-						</div>
-					</div>
+    <section class="section training-run" id="experience" aria-labelledby="experience-title">
+      <header class="section-heading reveal">
+        <p class="section-kicker"><span>02 / TRAINING RUN</span> — work history, 2014 →</p>
+        <h2 id="experience-title">Seven checkpoints.<br>One continuous model.</h2>
+      </header>
 
-					<div class="timeline-item">
-						<div class="timeline-marker timeline-marker-alt"></div>
-						<button class="expand-timeline">See more experience <span class="icon-chevron-down"></span></button>
-					</div>
+      <ol class="checkpoints" reversed>
+        <li class="checkpoint current reveal">
+          <article>
+            <header>
+              <p class="version">v3.0 <span>current run</span></p>
+              <div><h3>Applied AI focus</h3><time datetime="2024">2024? → now</time></div>
+            </header>
+            <div class="release-notes">
+              <p>Training in progress. Current focus is hands-on product engineering with large language models: agent systems, evals, and applied AI experiences. Specific release notes coming when the run stabilizes.</p>
+            </div>
+          </article>
+        </li>
 
-					<div class="timeline-item hidden">
-						<div class="timeline-marker"></div>
-						<div class="timeline-date">January 2015 - December 2015</div>
-						<h3>SEO Specialist</h3>
-						<p class="timeline-company">Saatchi & Saatchi</p>
-						<div class="timeline-content">
-							<p>• Led content and organic search for Toyota Canada</p>
-							<p>• Improved first page rankings while optimized site architecture and technical SEO standards</p>
-							<p>• Innovated SEM with Google AdWords Scripts by developing account-specific tools</p>
-							<p>• Developed tools for 404 checking, automated reporting, query analysis, and bid adjustment</p>
-						</div>
-					</div>
+        <li class="checkpoint reveal">
+          <article>
+            <header>
+              <p class="version">v2.0 <span>founder build</span></p>
+              <div><h3>Co-founder · Breezeful</h3><time datetime="2020-01">Jan 2020 → now</time></div>
+            </header>
+            <ul class="release-notes">
+              <li>Leads all technology initiatives at a Y Combinator-backed mortgage-tech startup operating in U.S. and Canadian markets.</li>
+              <li>Builds the full-stack TypeScript platform: React front end, Node back end, Redis and session auth, PostgreSQL, and dev-ops across AWS, GCP, and Heroku.</li>
+              <li>Develops feature-based modular monoliths with pub/sub and Redis queue wiring.</li>
+              <li>Works deeply in SQL, data visualization, and non-ORM development.</li>
+              <li>Also runs payroll, benefits, commissions, and company operations.</li>
+            </ul>
+          </article>
+        </li>
 
-					<div class="timeline-item hidden">
-						<div class="timeline-marker"></div>
-						<div class="timeline-date">May 2014 - January 2015</div>
-						<h3>SEO & Marketing Analyst</h3>
-						<p class="timeline-company">Stylekick Inc.</p>
-						<div class="timeline-content">
-							<p>• Recruited as a marketing intern and promoted to SEO & Marketing Analyst</p>
-							<p>• Improved app visibility with top rankings in over 15 languages for high-traffic keywords</p>
-							<p>• Transformed Pinterest into a major traffic source with 500-800 daily clicks</p>
-							<p>• Optimized social media pay-per-install campaigns reducing cost per install to $0.60-$0.80</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
+        <li class="checkpoint reveal">
+          <article>
+            <header>
+              <p class="version">v1.0 <span>major release</span></p>
+              <div><h3>Head of Growth · Cover Financial</h3><time datetime="2017-12/2019-12">Dec 2017 – Dec 2019</time></div>
+            </header>
+            <ul class="release-notes">
+              <li>Led all growth and marketing; built the six-person growth team from scratch.</li>
+              <li>Owned paid and organic acquisition, retention and activation, content, and PR.</li>
+              <li>Managed CPA, CPL, and LTV metrics; built growth dashboards with SQL and Periscope Data.</li>
+              <li>Opened channels across web, mobile, apps, and messenger, and led the referral program.</li>
+            </ul>
+          </article>
+        </li>
 
-		<!-- Skills Section -->
-		<section id="skills" class="skills-section">
-			<div class="container">
-				<h2 class="section-title">
-					<span class="icon-code"></span>
-					Skills & Expertise
-				</h2>
+        <li class="checkpoint reveal">
+          <article>
+            <header>
+              <p class="version">v0.9 <span>platform scale</span></p>
+              <div><h3>SEO Specialist · Shopify</h3><time datetime="2017-03/2017-12">Mar – Dec 2017</time></div>
+            </header>
+            <ul class="release-notes">
+              <li>Led SEO and growth initiatives across reporting, automation, and scaling.</li>
+              <li>Implemented audits in Ruby on Rails.</li>
+              <li>Worked on Shopify Brochure, Exchange, Burst, and Shopify Plus.</li>
+            </ul>
+          </article>
+        </li>
 
-				<div class="skills-grid">
-					<div class="skills-category">
-						<h3>Development</h3>
-						<div class="skill-bars">
-							<div class="skill-item">
-								<div class="skill-info">
-									<span>JavaScript/TypeScript</span>
-									<span>95%</span>
-								</div>
-								<div class="skill-bar">
-									<div class="skill-progress" style="width: 95%"></div>
-								</div>
-							</div>
+        <li class="checkpoint reveal">
+          <article>
+            <header>
+              <p class="version">v0.5 <span>bilingual</span></p>
+              <div><h3>SEO Manager · Saatchi &amp; Saatchi</h3><time datetime="2016-01/2017-02">Jan 2016 – Feb 2017</time></div>
+            </header>
+            <ul class="release-notes">
+              <li>Bilingual SEO manager for Toyota Canada, Lexus, Scion, and TJX Canada.</li>
+              <li>Developed organic search strategy for new business under Publicis Groupe.</li>
+            </ul>
+          </article>
+        </li>
 
-							<div class="skill-item">
-								<div class="skill-info">
-									<span>React/Next.js</span>
-									<span>90%</span>
-								</div>
-								<div class="skill-bar">
-									<div class="skill-progress" style="width: 90%"></div>
-								</div>
-							</div>
+        <li class="checkpoint reveal">
+          <article>
+            <header>
+              <p class="version">v0.2 <span>automation added</span></p>
+              <div><h3>SEO Specialist · Saatchi &amp; Saatchi</h3><time datetime="2015-01/2015-12">Jan – Dec 2015</time></div>
+            </header>
+            <ul class="release-notes">
+              <li>Led content and organic search for Toyota Canada, improving first-page rankings, site architecture, and technical SEO.</li>
+              <li>Built AdWords Scripts tooling for 404 checks, automated reporting, query analysis, and bid adjustment.</li>
+            </ul>
+          </article>
+        </li>
 
-							<div class="skill-item">
-								<div class="skill-info">
-									<span>Python & LLMs</span>
-									<span>85%</span>
-								</div>
-								<div class="skill-bar">
-									<div class="skill-progress" style="width: 85%"></div>
-								</div>
-							</div>
+        <li class="checkpoint reveal">
+          <article>
+            <header>
+              <p class="version">v0.1 <span>initial checkpoint</span></p>
+              <div><h3>SEO &amp; Marketing Analyst · Stylekick</h3><time datetime="2014-05/2015-01">May 2014 – Jan 2015</time></div>
+            </header>
+            <ul class="release-notes">
+              <li>Joined as an intern and was promoted to analyst.</li>
+              <li>Earned top app-store rankings in more than 15 languages.</li>
+              <li>Built Pinterest into a 500–800 daily-click traffic source.</li>
+              <li>Optimized pay-per-install campaigns to $0.60–$0.80 CPI.</li>
+            </ul>
+          </article>
+        </li>
+      </ol>
+    </section>
 
-							<div class="skill-item">
-								<div class="skill-info">
-									<span>Ruby on Rails</span>
-									<span>80%</span>
-								</div>
-								<div class="skill-bar">
-									<div class="skill-progress" style="width: 80%"></div>
-								</div>
-							</div>
+    <section class="section evals" id="projects" aria-labelledby="projects-title">
+      <header class="section-heading reveal">
+        <p class="section-kicker"><span>03 / EVALS</span> — selected work</p>
+        <h2 id="projects-title">Results in the wild.</h2>
+      </header>
+      <div class="eval-table reveal">
+        <div class="eval-header" aria-hidden="true">
+          <span>benchmark</span><span>role</span><span>result</span><span>link</span>
+        </div>
+        <article class="eval-row">
+          <h3>Breezeful</h3>
+          <p>Co-founder</p>
+          <p>YC-backed digital mortgage platform simplifying the home-loan process.</p>
+          <a href="https://breezeful.com" target="_blank" rel="noopener noreferrer" aria-label="Visit Breezeful (opens in a new tab)">visit <span aria-hidden="true">↗</span></a>
+        </article>
+        <article class="eval-row">
+          <h3>Page Outil</h3>
+          <p>Creator</p>
+          <p>SEO tool for practical on-page optimization insights.</p>
+          <a href="https://pageoutil.com" target="_blank" rel="noopener noreferrer" aria-label="Visit Page Outil (opens in a new tab)">visit <span aria-hidden="true">↗</span></a>
+        </article>
+      </div>
+    </section>
 
-							<div class="skill-item">
-								<div class="skill-info">
-									<span>SQL & PostgreSQL</span>
-									<span>90%</span>
-								</div>
-								<div class="skill-bar">
-									<div class="skill-progress" style="width: 90%"></div>
-								</div>
-							</div>
-						</div>
-					</div>
+    <section class="section contact" id="contact" aria-labelledby="contact-title">
+      <header class="section-heading reveal">
+        <p class="section-kicker"><span>04 / CONTACT</span> — get in touch</p>
+        <h2 id="contact-title">Start an inference.</h2>
+      </header>
+      <div class="endpoint reveal">
+        <div class="endpoint-route"><span>POST</span> /v1/messages</div>
+        <div class="endpoint-field"><span>to</span><a href="mailto:email@anthonydeguzman.com">email@anthonydeguzman.com</a></div>
+        <div class="endpoint-field"><span>via</span><a href="https://www.linkedin.com/in/anthonydeguzman" target="_blank" rel="me noopener noreferrer">LinkedIn <b aria-hidden="true">↗</b></a></div>
+        <p class="endpoint-response"><span>200</span> usually human-generated</p>
+      </div>
+    </section>
+  </main>
 
-					<div class="skills-category">
-						<h3>Marketing & Growth</h3>
-						<div class="skill-bars">
-							<div class="skill-item">
-								<div class="skill-info">
-									<span>SEO & Content Strategy</span>
-									<span>95%</span>
-								</div>
-								<div class="skill-bar">
-									<div class="skill-progress" style="width: 95%"></div>
-								</div>
-							</div>
+  <footer class="site-footer">
+    <p>© <span id="year">2026</span> Anthony De Guzman</p>
+    <p>adg-3 · Toronto · temperature 0</p>
+    <a href="#top">Back to top ↑</a>
+  </footer>
 
-							<div class="skill-item">
-								<div class="skill-info">
-									<span>Paid Acquisition</span>
-									<span>90%</span>
-								</div>
-								<div class="skill-bar">
-									<div class="skill-progress" style="width: 90%"></div>
-								</div>
-							</div>
+  <dialog class="prompt-dialog" id="prompt-dialog" aria-labelledby="prompt-title">
+    <div class="dialog-shell">
+      <header class="dialog-header">
+        <div>
+          <p>adg-3 / prompt palette</p>
+          <h2 id="prompt-title">What do you want to know?</h2>
+        </div>
+        <button class="dialog-close" type="button" aria-label="Close prompt palette">Esc</button>
+      </header>
+      <div class="prompt-input-wrap">
+        <span aria-hidden="true">›</span>
+        <input id="prompt-input" type="text" role="combobox" aria-autocomplete="list" aria-controls="prompt-options" aria-expanded="true" autocomplete="off" spellcheck="false" placeholder="Ask adg-3…">
+        <kbd>↵</kbd>
+      </div>
+      <div class="prompt-body">
+        <ul id="prompt-options" class="prompt-options" role="listbox" aria-label="Preset questions"></ul>
+        <div id="prompt-log" class="prompt-log" role="log" aria-live="polite" aria-relevant="additions"></div>
+      </div>
+      <footer class="dialog-footer"><span>↑↓ select</span><span>↵ run</span><span>esc close</span><span>temperature 0</span></footer>
+    </div>
+  </dialog>
 
-							<div class="skill-item">
-								<div class="skill-info">
-									<span>Analytics & Data Visualization</span>
-									<span>85%</span>
-								</div>
-								<div class="skill-bar">
-									<div class="skill-progress" style="width: 85%"></div>
-								</div>
-							</div>
-
-							<div class="skill-item">
-								<div class="skill-info">
-									<span>Growth Experimentation</span>
-									<span>90%</span>
-								</div>
-								<div class="skill-bar">
-									<div class="skill-progress" style="width: 90%"></div>
-								</div>
-							</div>
-
-							<div class="skill-item">
-								<div class="skill-info">
-									<span>User Acquisition</span>
-									<span>95%</span>
-								</div>
-								<div class="skill-bar">
-									<div class="skill-progress" style="width: 95%"></div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<!-- Projects Section -->
-		<section id="projects" class="projects-section">
-			<div class="container">
-				<h2 class="section-title">
-					<span class="icon-code"></span>
-					Notable Projects
-				</h2>
-
-				<div class="projects-grid">
-					<div class="project-card">
-						<div class="project-content">
-							<h3>Breezeful</h3>
-							<p class="project-role">Co-founder</p>
-							<p class="project-description">
-								Co-founded Breezeful, a digital mortgage platform that simplifies the home loan process through
-								technology.
-							</p>
-							<a href="https://breezeful.com" target="_blank" rel="noopener noreferrer" class="project-link">
-								Visit website <span class="icon-arrow-right"></span>
-							</a>
-						</div>
-					</div>
-
-					<div class="project-card">
-						<div class="project-content">
-							<h3>Page Outil</h3>
-							<p class="project-role">Creator</p>
-							<p class="project-description">
-								Developed an SEO tool for on-page optimization insights, helping marketers improve their search
-								rankings.
-							</p>
-							<a href="https://pageoutil.com" target="_blank" rel="noopener noreferrer" class="project-link">
-								Visit website <span class="icon-arrow-right"></span>
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-	</main>
-
-	<footer class="footer">
-		<div class="container">
-			<p>&copy; 2025 Anthony De Guzman. All rights reserved.</p>
-		</div>
-	</footer>
-
-	<!-- Custom JS -->
-	<script src="script-min.js"></script>
+  <script type="module" src="/js/main.js" onerror="window.adg3RevealIntro?.()"></script>
 </body>
-
 </html>
