@@ -191,8 +191,7 @@ ul {
 }
 
 .wordmark i,
-.model-chip i,
-.status-dot {
+.model-chip i {
   width: 6px;
   height: 6px;
   border-radius: 50%;
@@ -356,14 +355,7 @@ kbd {
   display: inline-flex;
   align-items: center;
   gap: 9px;
-  padding-right: 24px;
-  border-right: 1px solid var(--rule);
   color: var(--fg);
-}
-
-.hero-status {
-  display: inline-block;
-  min-width: 31ch;
 }
 
 .eyebrow,
@@ -432,7 +424,7 @@ kbd {
   color: var(--bg);
 }
 
-.hero-actions > a {
+.hero-actions > a:not(.prompt-cta) {
   color: var(--mid);
   font-size: 10px;
   letter-spacing: 0.07em;
@@ -544,12 +536,6 @@ kbd {
   font-size: 11px;
 }
 
-.status-dot {
-  display: inline-block;
-  margin-right: 5px;
-  vertical-align: 1px;
-}
-
 .training-data p {
   max-width: 26em;
   margin-bottom: 0;
@@ -558,7 +544,7 @@ kbd {
 }
 
 .capabilities {
-  margin-bottom: clamp(90px, 12vw, 150px);
+  margin-bottom: 0;
 }
 
 .subhead {
@@ -573,7 +559,6 @@ kbd {
 }
 
 .capability-list,
-.limitations ol,
 .checkpoints,
 .release-notes,
 .prompt-options {
@@ -598,47 +583,6 @@ kbd {
   font-size: 11px;
 }
 
-.notches {
-  display: flex;
-  flex: 0 0 auto;
-  gap: 5px;
-}
-
-.notches i {
-  width: 18px;
-  height: 5px;
-  background: var(--m4);
-}
-
-.notches i:nth-child(1) { background: var(--m1); }
-.notches i:nth-child(2) { background: var(--m2); }
-.notches i:nth-child(3) { background: var(--m3); }
-.notches i:nth-child(4) { background: var(--m4); }
-.notches i:nth-child(5) { background: var(--m5); }
-.notches i.off { background: var(--rule); }
-
-.limitations {
-  width: min(100%, 900px);
-  margin-left: auto;
-}
-
-.limitations ol {
-  margin-bottom: 0;
-}
-
-.limitations li {
-  display: grid;
-  grid-template-columns: 70px 1fr;
-  padding: 22px 0;
-  border-bottom: 1px solid var(--rule);
-  color: var(--fg);
-  font-size: clamp(16px, 1.5vw, 22px);
-}
-
-.limitations li span {
-  color: var(--mid);
-  font-size: 9px;
-}
 
 .checkpoints {
   position: relative;
@@ -909,22 +853,6 @@ ul.release-notes li::before {
   color: var(--fg);
 }
 
-.intro .hero-status::after {
-  display: inline-block;
-  width: 0.65em;
-  height: 1.1em;
-  margin-left: 5px;
-  background: var(--m4);
-  content: "";
-  transform: scaleY(0.7);
-  animation: caret 800ms steps(1) infinite;
-  vertical-align: -0.2em;
-}
-
-@keyframes caret {
-  50% { opacity: 0; }
-}
-
 /* Scroll reveal is added only after JS boots. */
 .motion .reveal {
   opacity: 0;
@@ -1101,14 +1029,6 @@ ul.release-notes li::before {
 .log-question span {
   margin-right: 9px;
   color: var(--m4);
-}
-
-.log-meta {
-  margin-bottom: 24px;
-  color: #82786c;
-  font-size: 8px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
 }
 
 .log-answer {
@@ -1301,15 +1221,6 @@ ul.release-notes li::before {
     margin-bottom: 70px;
   }
 
-  .model-chip {
-    padding-right: 14px;
-  }
-
-  .hero-status {
-    min-width: 0;
-    font-size: 8px;
-  }
-
   .eyebrow {
     font-size: 8px;
   }
@@ -1365,19 +1276,6 @@ ul.release-notes li::before {
 
   .capability-list li {
     font-size: 10px;
-  }
-
-  .notches {
-    gap: 3px;
-  }
-
-  .notches i {
-    width: 11px;
-  }
-
-  .limitations li {
-    grid-template-columns: 42px 1fr;
-    font-size: 15px;
   }
 
   .checkpoints {
@@ -1518,9 +1416,7 @@ ul.release-notes li::before {
 
 @media (forced-colors: active) {
   .wordmark i,
-  .model-chip i,
-  .status-dot,
-  .notches i {
+  .model-chip i {
     forced-color-adjust: none;
     background: CanvasText;
   }

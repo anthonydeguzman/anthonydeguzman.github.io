@@ -24,8 +24,6 @@ function initYear() {
 function markIntroComplete() {
   root.classList.remove("intro");
   document.querySelectorAll(".intro-stream").forEach((element) => element.classList.add("is-streamed"));
-  const status = document.querySelector(".hero-status");
-  if (status) status.textContent = "weights ready · context 11 years";
   try { sessionStorage.setItem("adg3:intro", "1"); } catch (_) { /* Storage is optional. */ }
 }
 
@@ -37,7 +35,6 @@ function initIntro() {
 
   const name = document.querySelector('[data-intro="name"]');
   const tagline = document.querySelector('[data-intro="tagline"]');
-  const status = document.querySelector(".hero-status");
   const timers = [];
   const controllers = [];
   const startY = scrollY;
@@ -59,14 +56,12 @@ function initIntro() {
     if (Math.abs(scrollY - startY) >= 40) complete();
   };
 
-  if (status) status.textContent = "loading weights …";
   addEventListener("keydown", skip, { once: true });
   addEventListener("click", skip, { once: true });
   addEventListener("scroll", onScroll, { passive: true });
 
   timers.push(setTimeout(() => {
     if (finished || !name) return;
-    if (status) status.textContent = "mapping loss surface …";
     const nameStream = stream(name, { mode: "char", rate: 42 });
     controllers.push(nameStream);
     nameStream.done.then(() => {
@@ -136,6 +131,6 @@ async function initHero() {
     const { initHero: boot } = await import("/js/hero.js");
     await boot(canvas, { tier, staticMode: reducedMotion.matches });
   } catch (error) {
-    console.warn("adg-3 terrain unavailable; retaining CSS poster.", error);
+    console.warn("Interactive background unavailable; retaining CSS poster.", error);
   }
 }

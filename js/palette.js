@@ -20,7 +20,7 @@ export function initPalette() {
     if (!filtered.length) {
       const empty = document.createElement("li");
       empty.className = "prompt-empty";
-      empty.textContent = "out of distribution — try one of these: stack, AI pivot, contact";
+      empty.textContent = "No match — try technology, Breezeful, or contact.";
       options.append(empty);
       input.removeAttribute("aria-activedescendant");
       return;
@@ -87,7 +87,6 @@ export function initPalette() {
     marker.setAttribute("aria-hidden", "true");
     question.prepend(marker);
 
-    const meta = makeElement("p", "log-meta", `adg-3 · temperature 0 · ${prompt.tokens} tok · ${prompt.ms} ms`);
     const answer = makeElement("p", "log-answer", prompt.answer);
     answer.setAttribute("aria-hidden", "true");
     const announcement = makeElement("p", "sr-only", prompt.answer);
@@ -96,7 +95,7 @@ export function initPalette() {
     const followups = document.createElement("div");
     followups.className = "followups";
     const label = document.createElement("span");
-    label.textContent = "follow up";
+    label.textContent = "Related";
     followups.append(label);
     for (const id of prompt.followups) {
       const next = promptById.get(id);
@@ -108,7 +107,7 @@ export function initPalette() {
       followups.append(button);
     }
 
-    log.append(question, meta, answer, announcement, followups);
+    log.append(question, answer, announcement, followups);
     requestAnimationFrame(() => {
       log.setAttribute("aria-live", "polite");
       if (reducedMotion.matches) {
