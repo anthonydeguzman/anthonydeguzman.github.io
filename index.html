@@ -3,42 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script>
-    (() => {
-      const root = document.documentElement;
-      const revealIntro = () => {
-        root.classList.remove('intro');
-        document.querySelectorAll('.intro-stream').forEach((element) => {
-          element.classList.add('is-streamed');
-          element.querySelectorAll('.stream-unit').forEach((unit) => unit.classList.add('visible'));
-        });
-      };
-      root.classList.add('js');
-      window.adg3RevealIntro = revealIntro;
-      setTimeout(() => root.classList.contains('intro') && revealIntro(), 2600);
-      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      try {
-        if (!sessionStorage.getItem('adg3:intro')) root.classList.add('intro');
-      } catch (_) {
-        root.classList.add('intro');
-      }
-    })();
-  </script>
   <title>Anthony De Guzman — Developer &amp; Co-founder, Breezeful</title>
-  <meta name="description" content="Anthony De Guzman is a Toronto-based developer and co-founder of Breezeful, working across product, engineering, and growth.">
+  <meta name="description" content="Anthony De Guzman is a Toronto-based developer and co-founder of Breezeful. He leads technology and builds digital products.">
   <link rel="canonical" href="https://anthonydeguzman.com/">
   <meta name="theme-color" content="#161310">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://anthonydeguzman.com/">
   <meta property="og:title" content="Anthony De Guzman — Developer &amp; Co-founder">
-  <meta property="og:description" content="Toronto-based developer and co-founder working across product, engineering, and growth.">
+  <meta property="og:description" content="Co-founder of Breezeful. I lead technology and build digital products.">
   <meta property="og:image" content="https://anthonydeguzman.com/assets/og/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Anthony De Guzman, developer and co-founder">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Anthony De Guzman — Developer &amp; Co-founder">
-  <meta name="twitter:description" content="Toronto-based developer and co-founder working across product, engineering, and growth.">
+  <meta name="twitter:description" content="Co-founder of Breezeful. I lead technology and build digital products.">
   <meta name="twitter:image" content="https://anthonydeguzman.com/assets/og/og.png">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/favicon.ico" sizes="32x32">
@@ -46,11 +25,7 @@
   <link rel="preload" href="/fonts/martian-mono-wght-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/newsreader-italic-wght-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="modulepreload" href="/js/main.js">
-  <link rel="modulepreload" href="/js/palette.js">
-  <link rel="modulepreload" href="/js/prompts.js">
-  <link rel="modulepreload" href="/js/stream.js">
   <link rel="stylesheet" href="/css/main.css">
-  <script type="importmap">{"imports":{"three":"/vendor/three/three.module.min.js"}}</script>
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -80,9 +55,7 @@
       <a href="#projects">Work</a>
       <a href="#contact">Contact</a>
     </nav>
-    <button class="nav-prompt" type="button" data-prompt-open aria-haspopup="dialog">
-      <span>Questions</span><kbd>/</kbd>
-    </button>
+    <a class="header-contact" href="#contact">Contact</a>
   </header>
 
   <main id="main">
@@ -95,8 +68,8 @@
         <div class="hero-topline">
           <span class="model-chip"><i></i> Toronto, Canada</span>
         </div>
-        <h1 id="hero-title" class="intro-stream" data-intro="name">Anthony De Guzman</h1>
-        <p class="hero-tagline intro-stream human-voice" data-intro="tagline">Developer and co-founder at Breezeful.</p>
+        <h1 id="hero-title">Anthony <span class="last-name">De Guzman</span></h1>
+        <p class="hero-tagline human-voice">Co-founder of Breezeful. I lead technology and build digital products.</p>
         <div class="hero-actions">
           <a class="prompt-cta" href="#projects">View selected work <span aria-hidden="true">↓</span></a>
           <a href="#contact">Get in touch <span aria-hidden="true">→</span></a>
@@ -126,7 +99,7 @@
 
         <div class="training-data reveal">
           <h3>About</h3>
-          <p class="human-voice">I’m a developer and co-founder of Breezeful. I work across product, engineering, and growth.</p>
+          <p class="human-voice">I’m a developer and co-founder of Breezeful. I lead technology and stay involved in the day-to-day work of building the company.</p>
         </div>
       </div>
 
@@ -162,11 +135,9 @@
               <div><h3>Co-founder · Breezeful</h3><time datetime="2020-01">Jan 2020 → now</time></div>
             </header>
             <ul class="release-notes">
-              <li>Leads all technology initiatives at a Y Combinator-backed mortgage-tech startup operating in U.S. and Canadian markets.</li>
-              <li>Builds the full-stack TypeScript platform: React front end, Node back end, Redis and session auth, PostgreSQL, and dev-ops across AWS, GCP, and Heroku.</li>
-              <li>Develops feature-based modular monoliths with pub/sub and Redis queue wiring.</li>
-              <li>Works deeply in SQL, data visualization, and non-ORM development.</li>
-              <li>Also runs payroll, benefits, commissions, and company operations.</li>
+              <li>Lead all technology initiatives at a Y Combinator-backed mortgage-tech startup serving U.S. and Canadian markets.</li>
+              <li>Build the full-stack TypeScript platform with React, Node.js, Redis, PostgreSQL, and infrastructure across AWS, GCP, and Heroku.</li>
+              <li>Work across architecture, data, visualization, and company operations.</li>
             </ul>
           </article>
         </li>
@@ -178,10 +149,8 @@
               <div><h3>Head of Growth · Cover Financial</h3><time datetime="2017-12/2019-12">Dec 2017 – Dec 2019</time></div>
             </header>
             <ul class="release-notes">
-              <li>Led all growth and marketing; built the six-person growth team from scratch.</li>
-              <li>Owned paid and organic acquisition, retention and activation, content, and PR.</li>
-              <li>Managed CPA, CPL, and LTV metrics; built growth dashboards with SQL and Periscope Data.</li>
-              <li>Opened channels across web, mobile, apps, and messenger, and led the referral program.</li>
+              <li>Led growth and marketing and built the six-person team from scratch.</li>
+              <li>Owned acquisition, retention, analytics, new channels, and the referral program.</li>
             </ul>
           </article>
         </li>
@@ -194,8 +163,7 @@
             </header>
             <ul class="release-notes">
               <li>Led SEO and growth initiatives across reporting, automation, and scaling.</li>
-              <li>Implemented audits in Ruby on Rails.</li>
-              <li>Worked on Shopify Brochure, Exchange, Burst, and Shopify Plus.</li>
+              <li>Implemented audits in Ruby on Rails and worked on Shopify Brochure, Exchange, Burst, and Shopify Plus.</li>
             </ul>
           </article>
         </li>
@@ -203,66 +171,51 @@
         <li class="checkpoint reveal">
           <article>
             <header>
-              <p class="version">2016–17</p>
-              <div><h3>SEO Manager · Saatchi &amp; Saatchi</h3><time datetime="2016-01/2017-02">Jan 2016 – Feb 2017</time></div>
+              <p class="version">2014–17</p>
+              <div><h3>Earlier experience</h3><time datetime="2014-05/2017-02">May 2014 – Feb 2017</time></div>
             </header>
             <ul class="release-notes">
-              <li>Bilingual SEO manager for Toyota Canada, Lexus, Scion, and TJX Canada.</li>
-              <li>Developed organic search strategy for new business under Publicis Groupe.</li>
-            </ul>
-          </article>
-        </li>
-
-        <li class="checkpoint reveal">
-          <article>
-            <header>
-              <p class="version">2015</p>
-              <div><h3>SEO Specialist · Saatchi &amp; Saatchi</h3><time datetime="2015-01/2015-12">Jan – Dec 2015</time></div>
-            </header>
-            <ul class="release-notes">
-              <li>Led content and organic search for Toyota Canada, improving first-page rankings, site architecture, and technical SEO.</li>
-              <li>Built AdWords Scripts tooling for 404 checks, automated reporting, query analysis, and bid adjustment.</li>
-            </ul>
-          </article>
-        </li>
-
-        <li class="checkpoint reveal">
-          <article>
-            <header>
-              <p class="version">2014–15</p>
-              <div><h3>SEO &amp; Marketing Analyst · Stylekick</h3><time datetime="2014-05/2015-01">May 2014 – Jan 2015</time></div>
-            </header>
-            <ul class="release-notes">
-              <li>Joined as an intern and was promoted to analyst.</li>
-              <li>Earned top app-store rankings in more than 15 languages.</li>
-              <li>Built Pinterest into a 500–800 daily-click traffic source.</li>
-              <li>Optimized pay-per-install campaigns to $0.60–$0.80 CPI.</li>
+              <li><strong>SEO Manager / SEO Specialist · Saatchi &amp; Saatchi.</strong> Led bilingual organic search work for Toyota Canada, Lexus, Scion, and TJX Canada.</li>
+              <li><strong>SEO &amp; Marketing Analyst · Stylekick.</strong> Joined as an intern, was promoted to analyst, and worked across app-store discovery, acquisition, and analytics.</li>
             </ul>
           </article>
         </li>
       </ol>
     </section>
 
-    <section class="section evals" id="projects" aria-labelledby="projects-title">
+    <section class="section work" id="projects" aria-labelledby="projects-title">
       <header class="section-heading reveal">
         <p class="section-kicker"><span>03 / WORK</span> — selected projects</p>
         <h2 id="projects-title">Selected work.</h2>
       </header>
-      <div class="eval-table reveal">
-        <div class="eval-header" aria-hidden="true">
-          <span>project</span><span>role</span><span>description</span><span>link</span>
-        </div>
-        <article class="eval-row">
-          <h3>Breezeful</h3>
-          <p>Co-founder</p>
-          <p>YC-backed digital mortgage platform simplifying the home-loan process.</p>
-          <a href="https://breezeful.com" target="_blank" rel="noopener noreferrer" aria-label="Visit Breezeful (opens in a new tab)">visit <span aria-hidden="true">↗</span></a>
+      <div class="work-list">
+        <article class="work-case reveal">
+          <header class="work-case-header">
+            <div>
+              <p class="work-index">01 / Co-founder</p>
+              <h3>Breezeful</h3>
+            </div>
+            <a href="https://breezeful.com" target="_blank" rel="noopener noreferrer" aria-label="Visit Breezeful (opens in a new tab)">Visit site <span aria-hidden="true">↗</span></a>
+          </header>
+          <p class="work-summary human-voice">A Y Combinator-backed digital mortgage platform serving the U.S. and Canada.</p>
+          <dl class="work-details">
+            <div><dt>Role</dt><dd>Co-founder. I lead technology initiatives and work across engineering and company operations.</dd></div>
+            <div><dt>Build</dt><dd>Full-stack TypeScript with React, Node.js, Redis, PostgreSQL, and infrastructure across AWS, GCP, and Heroku.</dd></div>
+          </dl>
         </article>
-        <article class="eval-row">
-          <h3>Page Outil</h3>
-          <p>Creator</p>
-          <p>SEO tool for practical on-page optimization insights.</p>
-          <a href="https://pageoutil.com" target="_blank" rel="noopener noreferrer" aria-label="Visit Page Outil (opens in a new tab)">visit <span aria-hidden="true">↗</span></a>
+        <article class="work-case reveal">
+          <header class="work-case-header">
+            <div>
+              <p class="work-index">02 / Creator</p>
+              <h3>Page Outil</h3>
+            </div>
+            <a href="https://pageoutil.com" target="_blank" rel="noopener noreferrer" aria-label="Visit Page Outil (opens in a new tab)">Visit site <span aria-hidden="true">↗</span></a>
+          </header>
+          <p class="work-summary human-voice">A focused tool for practical, page-level SEO insights.</p>
+          <dl class="work-details">
+            <div><dt>Role</dt><dd>Independent creator.</dd></div>
+            <div><dt>Focus</dt><dd>Making on-page optimization easier to understand and act on.</dd></div>
+          </dl>
         </article>
       </div>
     </section>
@@ -285,28 +238,6 @@
     <a href="#top">Back to top ↑</a>
   </footer>
 
-  <dialog class="prompt-dialog" id="prompt-dialog" aria-labelledby="prompt-title">
-    <div class="dialog-shell">
-      <header class="dialog-header">
-        <div>
-          <p>Quick answers</p>
-          <h2 id="prompt-title">What would you like to know?</h2>
-        </div>
-        <button class="dialog-close" type="button" aria-label="Close quick answers">Esc</button>
-      </header>
-      <div class="prompt-input-wrap">
-        <span aria-hidden="true">›</span>
-        <input id="prompt-input" type="text" role="combobox" aria-autocomplete="list" aria-controls="prompt-options" aria-expanded="true" autocomplete="off" spellcheck="false" placeholder="Search questions…">
-        <kbd>↵</kbd>
-      </div>
-      <div class="prompt-body">
-        <ul id="prompt-options" class="prompt-options" role="listbox" aria-label="Preset questions"></ul>
-        <div id="prompt-log" class="prompt-log" role="log" aria-live="polite" aria-relevant="additions"></div>
-      </div>
-      <footer class="dialog-footer"><span>↑↓ select</span><span>↵ open</span><span>esc close</span></footer>
-    </div>
-  </dialog>
-
-  <script type="module" src="/js/main.js" onerror="window.adg3RevealIntro?.()"></script>
+  <script type="module" src="/js/main.js"></script>
 </body>
 </html>

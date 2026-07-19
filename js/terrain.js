@@ -69,47 +69,8 @@ class Simplex2D {
   }
 }
 
-function gaussian(x, z, centerX, centerZ, radiusX, radiusZ, depth) {
-  const dx = (x - centerX) / radiusX;
-  const dz = (z - centerZ) / radiusZ;
-  return -depth * Math.exp(-(dx * dx + dz * dz) * 0.5);
-}
-
 function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
-}
-
-function resamplePath(points, count) {
-  const cumulative = new Float32Array(points.length);
-  for (let index = 1; index < points.length; index += 1) {
-    const previous = points[index - 1];
-    const current = points[index];
-    cumulative[index] = cumulative[index - 1] + Math.hypot(
-      current.x - previous.x,
-      (current.y - previous.y) * 0.5,
-      current.z - previous.z
-    );
-  }
-
-  const total = cumulative[cumulative.length - 1];
-  const result = [];
-  let cursor = 1;
-  for (let sample = 0; sample < count; sample += 1) {
-    const distance = (sample / (count - 1)) * total;
-    while (cursor < cumulative.length - 1 && cumulative[cursor] < distance) cursor += 1;
-    const before = Math.max(0, cursor - 1);
-    const span = cumulative[cursor] - cumulative[before] || 1;
-    const mix = (distance - cumulative[before]) / span;
-    const a = points[before];
-    const b = points[cursor];
-    result.push({
-      x: a.x + (b.x - a.x) * mix,
-      y: a.y + (b.y - a.y) * mix,
-      z: a.z + (b.z - a.z) * mix
-    });
-  }
-  result[result.length - 1] = { ...result[0] };
-  return result;
 }
 
 export function makeTerrain(seed = 3032014) {
@@ -123,24 +84,23 @@ export function makeTerrain(seed = 3032014) {
     const z = (row / (GRID_DEPTH - 1) - 0.5) * WORLD_DEPTH;
     for (let column = 0; column < GRID_WIDTH; column += 1) {
       const x = (column / (GRID_WIDTH - 1) - 0.5) * WORLD_WIDTH;
-      let amplitude = 1.32;
-      let frequency = 0.072;
+      let amplitude = 1.18;
+      let frequency = 0.065;
       let height = 0;
+
       for (let octave = 0; octave < 4; octave += 1) {
-        height += simplex.noise(x * frequency + octave * 9.1, z * frequency - octave * 4.7) * amplitude;
-        amplitude *= 0.51;
-        frequency *= 2.04;
+        height += simplex.noise(x * frequency + octave * 8.7, z * frequency - octave * 5.1) * amplitude;
+        amplitude *= 0.5;
+        frequency *= 2.08;
       }
 
-      height += gaussian(x, z, -11.8, -4.6, 4.8, 3.9, 4.7);
-      height += gaussian(x, z, 8.8, -4.0, 5.4, 3.3, 4.25);
-      height += gaussian(x, z, -2.2, 5.5, 4.1, 3.0, 3.7);
-      height += gaussian(x, z, 14.8, 5.9, 3.2, 2.7, 3.25);
+      height += Math.sin(x * 0.16) * 0.35;
+      height += Math.cos(z * 0.24) * 0.28;
+      height += Math.sin((x + z) * 0.1) * 0.22;
 
       const edgeX = Math.abs(x) / (WORLD_WIDTH * 0.5);
       const edgeZ = Math.abs(z) / (WORLD_DEPTH * 0.5);
-      height += 2.7 * (edgeX ** 4 + edgeZ ** 4);
-      height *= 0.92;
+      height += 1.1 * (edgeX ** 4 + edgeZ ** 4);
 
       const index = row * GRID_WIDTH + column;
       heights[index] = height;
@@ -163,18 +123,12 @@ export function makeTerrain(seed = 3032014) {
     const b = heights[z0 * GRID_WIDTH + x1];
     const c = heights[z1 * GRID_WIDTH + x0];
     const d = heights[z1 * GRID_WIDTH + x1];
-    return (a + (b - a) * tx) + ((c + (d - c) * tx) - (a + (b - a) * tx)) * tz;
+    const top = a + (b - a) * tx;
+    const bottom = c + (d - c) * tx;
+    return top + (bottom - top) * tz;
   }
 
-  function gradAt(x, z) {
-    const epsilon = 0.11;
-    return {
-      x: (heightAt(x + epsilon, z) - heightAt(x - epsilon, z)) / (2 * epsilon),
-      z: (heightAt(x, z + epsilon) - heightAt(x, z - epsilon)) / (2 * epsilon)
-    };
-  }
-
-  const terrain = {
+  return {
     width: GRID_WIDTH,
     depth: GRID_DEPTH,
     worldWidth: WORLD_WIDTH,
@@ -183,74 +137,6 @@ export function makeTerrain(seed = 3032014) {
     minimum,
     maximum,
     mean: total / heights.length,
-    heightAt,
-    gradAt
+    heightAt
   };
-  terrain.descentPath = (options) => descentPath(terrain, options);
-  return terrain;
-}
-
-export function descentPath(terrain, { samples = 900 } = {}) {
-  const halfWidth = terrain.worldWidth * 0.5 - 0.45;
-  const halfDepth = terrain.worldDepth * 0.5 - 0.45;
-  const points = [];
-  const start = { x: -17.2, z: -8.0 };
-  const kicks = [
-    { x: 18.0, z: 2.6 },
-    { x: -11.5, z: 10.8 },
-    { x: 17.0, z: -4.2 }
-  ];
-  let x = start.x;
-  let z = start.z;
-  let velocityX = 0;
-  let velocityZ = 0;
-
-  function record(extraHeight = 0) {
-    points.push({ x, z, y: terrain.heightAt(x, z) + 0.2 + extraHeight });
-  }
-
-  for (let run = 0; run <= kicks.length; run += 1) {
-    let settledFrames = 0;
-    for (let step = 0; step < 250; step += 1) {
-      const gradient = terrain.gradAt(x, z);
-      velocityX = velocityX * 0.9 - gradient.x * 0.06;
-      velocityZ = velocityZ * 0.9 - gradient.z * 0.06;
-      const speed = Math.hypot(velocityX, velocityZ);
-      if (speed > 0.28) {
-        velocityX = (velocityX / speed) * 0.28;
-        velocityZ = (velocityZ / speed) * 0.28;
-      }
-      x = clamp(x + velocityX, -halfWidth, halfWidth);
-      z = clamp(z + velocityZ, -halfDepth, halfDepth);
-      record();
-      settledFrames = speed < 0.012 && Math.hypot(gradient.x, gradient.z) < 0.08 ? settledFrames + 1 : 0;
-      if (step > 70 && settledFrames > 20) break;
-    }
-
-    if (run === kicks.length) break;
-    const fromX = x;
-    const fromZ = z;
-    const targetX = clamp(x + kicks[run].x, -halfWidth, halfWidth);
-    const targetZ = clamp(z + kicks[run].z, -halfDepth, halfDepth);
-    for (let frame = 1; frame <= 32; frame += 1) {
-      const progress = frame / 32;
-      const eased = progress * progress * (3 - 2 * progress);
-      x = fromX + (targetX - fromX) * eased;
-      z = fromZ + (targetZ - fromZ) * eased;
-      record(Math.sin(progress * Math.PI) * 1.4);
-    }
-    velocityX = 0;
-    velocityZ = 0;
-  }
-
-  const fromX = x;
-  const fromZ = z;
-  for (let frame = 1; frame <= 48; frame += 1) {
-    const progress = frame / 48;
-    const eased = progress * progress * (3 - 2 * progress);
-    x = fromX + (start.x - fromX) * eased;
-    z = fromZ + (start.z - fromZ) * eased;
-    record(Math.sin(progress * Math.PI) * 1.7);
-  }
-  return resamplePath(points, samples);
 }
