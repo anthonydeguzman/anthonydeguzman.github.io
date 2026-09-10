@@ -6,25 +6,26 @@
   <title>Anthony De Guzman — Developer &amp; Co-founder, Breezeful</title>
   <meta name="description" content="Anthony De Guzman is a Toronto-based developer and co-founder of Breezeful. He leads technology and builds digital products.">
   <link rel="canonical" href="https://anthonydeguzman.com/">
-  <meta name="theme-color" content="#161310">
+  <meta name="theme-color" content="#e4e3de" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#2e2f33" media="(prefers-color-scheme: dark)">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://anthonydeguzman.com/">
   <meta property="og:title" content="Anthony De Guzman — Developer &amp; Co-founder">
   <meta property="og:description" content="Co-founder of Breezeful. I lead technology and build digital products.">
-  <meta property="og:image" content="https://anthonydeguzman.com/assets/og/og.png">
+  <meta property="og:image" content="https://anthonydeguzman.com/assets/og/og.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Anthony De Guzman, developer and co-founder">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Anthony De Guzman — Developer &amp; Co-founder">
   <meta name="twitter:description" content="Co-founder of Breezeful. I lead technology and build digital products.">
-  <meta name="twitter:image" content="https://anthonydeguzman.com/assets/og/og.png">
+  <meta name="twitter:image" content="https://anthonydeguzman.com/assets/og/og.jpg">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/favicon.ico" sizes="32x32">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <link rel="preload" href="/fonts/martian-mono-wght-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/fonts/newsreader-italic-wght-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/bricolage-grotesque-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="modulepreload" href="/js/main.js">
+  <link rel="modulepreload" href="/js/relief.js">
   <link rel="stylesheet" href="/css/main.css">
   <script type="application/ld+json">
     {
@@ -45,197 +46,137 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <header class="site-header">
-    <a class="wordmark" href="#top" aria-label="ADG — Anthony De Guzman, home">
-      <span>ADG</span><i aria-hidden="true"></i>
-    </a>
-    <nav class="site-nav" aria-label="Primary navigation">
-      <a href="#about">About</a>
-      <a href="#experience">Experience</a>
-      <a href="#projects">Work</a>
-      <a href="#contact">Contact</a>
-    </nav>
-    <a class="header-contact" href="#contact">Contact</a>
-  </header>
+  <div class="model" aria-hidden="true">
+    <canvas id="relief"></canvas>
+  </div>
 
   <main id="main">
-    <section class="hero" id="top" aria-labelledby="hero-title">
-      <div class="hero-poster" aria-hidden="true">
-        <canvas id="terrain" tabindex="-1"></canvas>
+    <section class="hero" id="top" aria-labelledby="name">
+      <header class="site-header">
+        <a class="site-name" href="#top">Anthony De Guzman</a>
+        <nav aria-label="Primary">
+          <a href="#about">About</a>
+          <a href="#experience">Experience</a>
+          <a href="#work">Work</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </header>
+      <div class="hero-body">
+        <h1 id="name" data-relief>Anthony<br>De Guzman</h1>
+        <p class="tagline">Co-founder of Breezeful. I lead technology and build digital products.</p>
       </div>
-      <div class="hero-shade" aria-hidden="true"></div>
-      <div class="hero-content">
-        <div class="hero-topline">
-          <span class="model-chip"><i></i> Toronto, Canada</span>
-        </div>
-        <h1 id="hero-title">Anthony <span class="last-name">De Guzman</span></h1>
-        <p class="hero-tagline human-voice">Co-founder of Breezeful. I lead technology and build digital products.</p>
-        <div class="hero-actions">
-          <a class="prompt-cta" href="#projects">View selected work <span aria-hidden="true">↓</span></a>
-          <a href="#contact">Get in touch <span aria-hidden="true">→</span></a>
-        </div>
-      </div>
+      <p class="hero-meta">
+        <span>Toronto, Canada</span>
+        <a href="#contact">Get in touch</a>
+      </p>
     </section>
 
-    <section class="section model-card" id="about" aria-labelledby="about-title">
+    <hr class="groove" data-engrave>
+
+    <section class="section" id="about" aria-labelledby="about-title">
       <span id="skills" class="anchor-alias" aria-hidden="true"></span>
-      <header class="section-heading reveal">
-        <p class="section-kicker"><span>01 / ABOUT</span> — background</p>
-        <h2 id="about-title">About.</h2>
-      </header>
-
-      <div class="model-layout">
-        <div class="model-overview reveal">
-          <h3>Details</h3>
-          <dl>
-            <div><dt>name</dt><dd>Anthony De Guzman</dd></div>
-            <div><dt>role</dt><dd>Developer and co-founder</dd></div>
-            <div><dt>based</dt><dd>Toronto, Canada</dd></div>
-            <div><dt>current</dt><dd>Breezeful</dd></div>
-            <div><dt>languages</dt><dd>EN, FR</dd></div>
-            <div><dt>education</dt><dd>BA, University of Waterloo, 2014</dd></div>
-          </dl>
-        </div>
-
-        <div class="training-data reveal">
-          <h3>About</h3>
-          <p class="human-voice">I’m a developer and co-founder of Breezeful. I lead technology and stay involved in the day-to-day work of building the company.</p>
-        </div>
-      </div>
-
-      <div class="capabilities reveal">
-        <div class="subhead">
-          <h3>Areas of experience</h3>
-        </div>
-        <ul class="capability-list">
-          <li><span>TypeScript / JavaScript</span></li>
-          <li><span>React / Next.js</span></li>
-          <li><span>Node.js</span></li>
-          <li><span>SQL / PostgreSQL</span></li>
-          <li><span>Python</span></li>
-          <li><span>Ruby on Rails</span></li>
-          <li><span>Product engineering</span></li>
-          <li><span>Analytics / data visualization</span></li>
-          <li><span>Growth / SEO</span></li>
+      <h2 id="about-title" data-relief>About</h2>
+      <div class="section-body">
+        <p>I’m a developer and co-founder of Breezeful. I lead technology and stay involved in the day-to-day work of building the company.</p>
+        <p>Based in Toronto, Canada. I work in English and French. BA, University of Waterloo, 2014.</p>
+        <h3 class="areas-title">Areas of experience</h3>
+        <ul class="areas">
+          <li>TypeScript / JavaScript</li>
+          <li>React / Next.js</li>
+          <li>Node.js</li>
+          <li>SQL / PostgreSQL</li>
+          <li>Python</li>
+          <li>Ruby on Rails</li>
+          <li>Product engineering</li>
+          <li>Analytics / data visualization</li>
+          <li>Growth / SEO</li>
         </ul>
       </div>
     </section>
 
-    <section class="section training-run" id="experience" aria-labelledby="experience-title">
-      <header class="section-heading reveal">
-        <p class="section-kicker"><span>02 / EXPERIENCE</span> — selected roles</p>
-        <h2 id="experience-title">Experience.</h2>
-      </header>
+    <hr class="groove" data-engrave>
 
-      <ol class="checkpoints" reversed>
-        <li class="checkpoint current reveal">
-          <article>
-            <header>
-              <p class="version">2020 →<span>Present</span></p>
-              <div><h3>Co-founder · Breezeful</h3><time datetime="2020-01">Jan 2020 → now</time></div>
-            </header>
-            <ul class="release-notes">
-              <li>Lead all technology initiatives at a Y Combinator-backed mortgage-tech startup serving U.S. and Canadian markets.</li>
-              <li>Build the full-stack TypeScript platform with React, Node.js, Redis, PostgreSQL, and infrastructure across AWS, GCP, and Heroku.</li>
-              <li>Work across architecture, data, visualization, and company operations.</li>
-            </ul>
-          </article>
+    <section class="section" id="experience" aria-labelledby="experience-title">
+      <h2 id="experience-title" data-relief>Experience</h2>
+      <ol class="roles section-body" reversed>
+        <li class="role current">
+          <p class="role-date"><time datetime="2020-01">2020 to now</time></p>
+          <div>
+            <h3>Co-founder, Breezeful</h3>
+            <p>Lead all technology initiatives at a Y Combinator-backed mortgage-tech startup serving U.S. and Canadian markets.</p>
+            <p>Build the full-stack TypeScript platform with React, Node.js, Redis, PostgreSQL, and infrastructure across AWS, GCP, and Heroku.</p>
+            <p>Work across architecture, data, visualization, and company operations.</p>
+          </div>
         </li>
-
-        <li class="checkpoint reveal">
-          <article>
-            <header>
-              <p class="version">2017–19</p>
-              <div><h3>Head of Growth · Cover Financial</h3><time datetime="2017-12/2019-12">Dec 2017 – Dec 2019</time></div>
-            </header>
-            <ul class="release-notes">
-              <li>Led growth and marketing and built the six-person team from scratch.</li>
-              <li>Owned acquisition, retention, analytics, new channels, and the referral program.</li>
-            </ul>
-          </article>
+        <li class="role">
+          <p class="role-date"><time datetime="2017-12/2019-12">2017 to 2019</time></p>
+          <div>
+            <h3>Head of Growth, Cover Financial</h3>
+            <p>Led growth and marketing and built the six-person team from scratch.</p>
+            <p>Owned acquisition, retention, analytics, new channels, and the referral program.</p>
+          </div>
         </li>
-
-        <li class="checkpoint reveal">
-          <article>
-            <header>
-              <p class="version">2017</p>
-              <div><h3>SEO Specialist · Shopify</h3><time datetime="2017-03/2017-12">Mar – Dec 2017</time></div>
-            </header>
-            <ul class="release-notes">
-              <li>Led SEO and growth initiatives across reporting, automation, and scaling.</li>
-              <li>Implemented audits in Ruby on Rails and worked on Shopify Brochure, Exchange, Burst, and Shopify Plus.</li>
-            </ul>
-          </article>
+        <li class="role">
+          <p class="role-date"><time datetime="2017-03/2017-12">2017</time></p>
+          <div>
+            <h3>SEO Specialist, Shopify</h3>
+            <p>Led SEO and growth initiatives across reporting, automation, and scaling.</p>
+            <p>Implemented audits in Ruby on Rails and worked on Shopify Brochure, Exchange, Burst, and Shopify Plus.</p>
+          </div>
         </li>
-
-        <li class="checkpoint reveal">
-          <article>
-            <header>
-              <p class="version">2014–17</p>
-              <div><h3>Earlier experience</h3><time datetime="2014-05/2017-02">May 2014 – Feb 2017</time></div>
-            </header>
-            <ul class="release-notes">
-              <li><strong>SEO Manager / SEO Specialist · Saatchi &amp; Saatchi.</strong> Led bilingual organic search work for Toyota Canada, Lexus, Scion, and TJX Canada.</li>
-              <li><strong>SEO &amp; Marketing Analyst · Stylekick.</strong> Joined as an intern, was promoted to analyst, and worked across app-store discovery, acquisition, and analytics.</li>
-            </ul>
-          </article>
+        <li class="role">
+          <p class="role-date"><time datetime="2014-05/2017-02">2014 to 2017</time></p>
+          <div>
+            <h3>Earlier experience</h3>
+            <p><b>SEO Manager / SEO Specialist, Saatchi &amp; Saatchi.</b> Led bilingual organic search work for Toyota Canada, Lexus, Scion, and TJX Canada.</p>
+            <p><b>SEO &amp; Marketing Analyst, Stylekick.</b> Joined as an intern, was promoted to analyst, and worked across app-store discovery, acquisition, and analytics.</p>
+          </div>
         </li>
       </ol>
     </section>
 
-    <section class="section work" id="projects" aria-labelledby="projects-title">
-      <header class="section-heading reveal">
-        <p class="section-kicker"><span>03 / WORK</span> — selected projects</p>
-        <h2 id="projects-title">Selected work.</h2>
-      </header>
-      <div class="work-list">
-        <article class="work-case reveal">
-          <header class="work-case-header">
-            <div>
-              <p class="work-index">01 / Co-founder</p>
-              <h3>Breezeful</h3>
-            </div>
-            <a href="https://breezeful.com" target="_blank" rel="noopener noreferrer" aria-label="Visit Breezeful (opens in a new tab)">Visit site <span aria-hidden="true">↗</span></a>
-          </header>
-          <p class="work-summary human-voice">A Y Combinator-backed digital mortgage platform serving the U.S. and Canada.</p>
-          <dl class="work-details">
-            <div><dt>Role</dt><dd>Co-founder. I lead technology initiatives and work across engineering and company operations.</dd></div>
-            <div><dt>Build</dt><dd>Full-stack TypeScript with React, Node.js, Redis, PostgreSQL, and infrastructure across AWS, GCP, and Heroku.</dd></div>
-          </dl>
+    <hr class="groove" data-engrave>
+
+    <section class="section" id="work" aria-labelledby="work-title">
+      <span id="projects" class="anchor-alias" aria-hidden="true"></span>
+      <h2 id="work-title" data-relief>Work</h2>
+      <div class="work-list section-body">
+        <article class="work">
+          <div class="work-head">
+            <h3 data-relief>Breezeful</h3>
+            <a href="https://breezeful.com" target="_blank" rel="noopener noreferrer">breezeful.com</a>
+          </div>
+          <p class="work-summary">A Y Combinator-backed digital mortgage platform serving the U.S. and Canada.</p>
+          <p><b>Role.</b> Co-founder. I lead technology initiatives and work across engineering and company operations.</p>
+          <p><b>Build.</b> Full-stack TypeScript with React, Node.js, Redis, PostgreSQL, and infrastructure across AWS, GCP, and Heroku.</p>
         </article>
-        <article class="work-case reveal">
-          <header class="work-case-header">
-            <div>
-              <p class="work-index">02 / Creator</p>
-              <h3>Page Outil</h3>
-            </div>
-            <a href="https://pageoutil.com" target="_blank" rel="noopener noreferrer" aria-label="Visit Page Outil (opens in a new tab)">Visit site <span aria-hidden="true">↗</span></a>
-          </header>
-          <p class="work-summary human-voice">A focused tool for practical, page-level SEO insights.</p>
-          <dl class="work-details">
-            <div><dt>Role</dt><dd>Independent creator.</dd></div>
-            <div><dt>Focus</dt><dd>Making on-page optimization easier to understand and act on.</dd></div>
-          </dl>
+        <article class="work">
+          <div class="work-head">
+            <h3 data-relief>Page Outil</h3>
+            <a href="https://pageoutil.com" target="_blank" rel="noopener noreferrer">pageoutil.com</a>
+          </div>
+          <p class="work-summary">A focused tool for practical, page-level SEO insights.</p>
+          <p><b>Role.</b> Independent creator.</p>
+          <p><b>Focus.</b> Making on-page optimization easier to understand and act on.</p>
         </article>
       </div>
     </section>
 
+    <hr class="groove" data-engrave>
+
     <section class="section contact" id="contact" aria-labelledby="contact-title">
-      <header class="section-heading reveal">
-        <p class="section-kicker"><span>04 / CONTACT</span></p>
-        <h2 id="contact-title">Get in touch.</h2>
-      </header>
-      <div class="endpoint reveal">
-        <div class="endpoint-field"><span>Email</span><a href="mailto:email@anthonydeguzman.com">email@anthonydeguzman.com</a></div>
-        <div class="endpoint-field"><span>LinkedIn</span><a href="https://www.linkedin.com/in/anthonydeguzman" target="_blank" rel="me noopener noreferrer">View profile <b aria-hidden="true">↗</b></a></div>
+      <h2 id="contact-title" data-relief>Contact</h2>
+      <div class="section-body">
+        <a class="email" href="mailto:email@anthonydeguzman.com"><span data-relief>email@anthonydeguzman.com</span></a>
+        <a class="linkedin" href="https://www.linkedin.com/in/anthonydeguzman" target="_blank" rel="me noopener noreferrer">LinkedIn</a>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
     <p>© <span id="year">2026</span> Anthony De Guzman</p>
-    <p>Toronto, Canada</p>
-    <a href="#top">Back to top ↑</a>
+    <p>Elevation data: USGS, via Mapzen terrain tiles</p>
+    <a href="#top">Back to top</a>
   </footer>
 
   <script type="module" src="/js/main.js"></script>

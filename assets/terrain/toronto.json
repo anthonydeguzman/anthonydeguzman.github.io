@@ -1,0 +1,33 @@
+{
+  "source": "Mapzen Terrain Tiles on AWS Open Data, terrarium z12 x1141-1148 y1490-1496; imagery source ned13 (USGS NED 1/3 arc-second)",
+  "bbox": {
+    "west": -79.7,
+    "east": -79.0672,
+    "south": 43.55,
+    "north": 43.95
+  },
+  "size": [
+    1024,
+    896
+  ],
+  "metersPerTexel": 49.7,
+  "elevation": {
+    "minM": 70.0,
+    "maxM": 350.0,
+    "gamma": 0.85,
+    "encoding": "value16 = R*256 + B; elev01 = value16/65535 = ((elev_m-minM)/(maxM-minM))^gamma"
+  },
+  "lake": {
+    "levelM": 74.5,
+    "thresholdM": 75.3
+  },
+  "anchors": {
+    "harbourV": 0.776,
+    "islandsV": 0.825,
+    "bluffsV": 0.626,
+    "downtownU": 0.506,
+    "humberU": 0.363,
+    "donU": 0.553
+  },
+  "southApronRows": 24
+}
