@@ -22,7 +22,7 @@ precision highp sampler2D;
 uniform sampler2D u_terrain;   // RGB8: elevation16 = r*256 + b (gamma-encoded 0..65535), g = water 0..1
 uniform sampler2D u_mask;      // RGBA8, document space: r = letter coverage, g = engraved lines
 uniform vec2 u_viewport, u_scroll, u_terrainOrigin, u_terrainSize, u_docSize;
-uniform float u_renderScale, u_parallax, u_terrainHeight, u_plateau, u_groove, u_time, u_grain, u_shadowSoft, u_sidePx, u_glint, u_sheen, u_lakeLevel;
+uniform float u_renderScale, u_maskScale, u_parallax, u_terrainHeight, u_normalStep, u_plateau, u_groove, u_time, u_grain, u_shadowSoft, u_sidePx, u_glint, u_sheen, u_lakeLevel;
 uniform vec3 u_light, u_keyColor, u_ambientColor, u_albedo, u_waterAlbedo;
 out vec4 fragColor;
 
@@ -51,14 +51,10 @@ vec2 terrainAt(vec2 v) {
   float elev = (s.r * 255.0 * 256.0 + s.b * 255.0) / 65535.0;
   return vec2(mix(u_lakeLevel, elev, inside), max(s.g, 1.0 - inside));
 }
-// Letters as the shadow march sees them: a slightly blurred, thresholded mip level, so no stroke is thinner than a
-// march step and thin type never breaks into ghost copies.
-float maskShadowAt(vec2 v) { return smoothstep(0.08, 0.35, textureLod(u_mask, maskUv(v), 1.5).r); }
 // Ground height: terrain and engraved grooves. Letters are handled by the shadow march and the side-face pass only,
 // because from straight above a vertical letter side has no projected area.
 float groundAt(vec2 v)  { return terrainAt(v).r * u_terrainHeight - maskAt(v).g * u_groove; }
 float terrainOnly(vec2 v) { return terrainAt(v).r * u_terrainHeight; }
-float fullAt(vec2 v)    { return terrainAt(v).r * u_terrainHeight + maskShadowAt(v) * u_plateau; }
 
 vec3 normalAt(vec2 v, float e) {
   float hx = groundAt(v + vec2(e, 0.0)) - groundAt(v - vec2(e, 0.0));
@@ -66,8 +62,8 @@ vec3 normalAt(vec2 v, float e) {
   return normalize(vec3(-hx, -hy, 2.0 * e));
 }
 
-// Shadow march toward the sun. Near field: uniform fine steps sized to the letters' shadow reach, so thin strokes are
-// never skipped. Far field: geometric steps over the terrain only (letters are too short to reach that far).
+// Near field: trace letter coverage separately from terrain height. Filtering widens with distance from the receiver,
+// giving crisp contact and a soft penumbra instead of thresholded, solid copies of the type. Far field: terrain only.
 float softShadow(vec2 v, float h0, vec3 L) {
   float horiz = length(L.xy);
   if (horiz < 1e-3) return 1.0;
@@ -79,9 +75,16 @@ float softShadow(vec2 v, float h0, vec3 L) {
   float stepLen = nearLen / float(NEAR);
   for (int i = 1; i <= NEAR; i++) {
     float t = float(i) * stepLen;
-    float d = h0 + 0.35 + t * slope - fullAt(v + dir * t);
+    vec2 samplePx = v + dir * t;
+    float d = h0 + 0.35 + t * slope - terrainOnly(samplePx);
     if (d < 0.0) return 0.0;
     res = min(res, u_shadowSoft * d / max(t, 2.0));
+    if (u_plateau > 0.0) {
+      float lod = log2(max(1.0, (1.0 + t * 0.22) * u_maskScale));
+      float coverage = textureLod(u_mask, maskUv(samplePx), lod).r;
+      float blocksLight = smoothstep(-0.6, 0.6, u_plateau - d);
+      res = min(res, 1.0 - coverage * blocksLight);
+    }
   }
   float maxH = u_terrainHeight + u_plateau;
   float t = nearLen;
@@ -98,18 +101,20 @@ float softShadow(vec2 v, float h0, vec3 L) {
   return res * res * (3.0 - 2.0 * res);
 }
 
-// Water: flat, faintly rippled. From straight above a low sun cannot be mirrored, so the low-sun sheen is a warm wash
-// that grows at grazing angles (the last light on the lake), with a broad highlight when the sun is high.
+// Satin water with long, quiet ripples and a broad reflection of the studio light.
+// The reflection stays on the lake instead of washing the whole surface in warm grey.
 vec3 shadeWater(vec2 layerPx, vec3 L, float shadow) {
-  vec2 q = layerPx * 0.05;
-  vec2 rip = vec2(vnoise(q + u_time * 0.03) * 0.6 + vnoise(q * 2.3 + 3.0 - u_time * 0.02) * 0.4,
-                  vnoise(q * 1.3 + 11.0 - u_time * 0.025) * 0.6 + vnoise(q * 2.9 + 5.0 + u_time * 0.02) * 0.4) - 0.5;
-  vec3 N = normalize(vec3(rip * 0.06, 1.0));
+  vec2 q = layerPx * vec2(0.012, 0.08);
+  float ripple = sin(q.y + sin(q.x + u_time * 0.12) * 1.6 - u_time * 0.22);
+  float detail = vnoise(q * vec2(0.8, 0.6) + u_time * 0.025) - 0.5;
+  vec3 N = normalize(vec3(detail * 0.018, ripple * 0.012, 1.0));
   vec3 H = normalize(L + vec3(0.0, 0.0, 1.0));
-  float grazing = 1.0 - clamp(L.z, 0.0, 1.0);
-  float spec = pow(max(dot(N, H), 0.0), 40.0) * 0.35;
-  float sheen = grazing * grazing * u_sheen * (1.0 + 0.2 * rip.x);
-  vec3 col = u_waterAlbedo * (u_ambientColor + u_keyColor * max(L.z, 0.0) * shadow * 0.9);
+  vec2 uv = (layerPx - u_terrainOrigin) / u_terrainSize;
+  vec2 reflection = (uv - vec2(0.54 + L.x * 0.22, 0.91 + L.y * 0.08)) * vec2(2.4, 4.0);
+  float pool = exp(-dot(reflection, reflection));
+  float spec = pow(max(dot(N, H), 0.0), 32.0) * 0.18;
+  float sheen = pool * u_sheen * (0.85 + 0.15 * ripple);
+  vec3 col = u_waterAlbedo * (1.0 + detail * 0.008) * (u_ambientColor + u_keyColor * max(L.z, 0.0) * shadow);
   return col + u_keyColor * (spec * u_glint + sheen) * shadow;
 }
 
@@ -120,23 +125,23 @@ void main() {
   vec2 m0 = maskAt(v);
   float water = t.g * (1.0 - m0.r);
   float h0 = t.r * u_terrainHeight + m0.r * u_plateau - m0.g * u_groove;
-  float e = max(1.0, 1.0 / u_renderScale);
+  float e = max(u_normalStep, 1.0 / u_renderScale);
   vec3 N = normalAt(v, e);
   float sh = mix(0.2, 1.0, softShadow(v, h0, L));   // 20% fill light keeps shadows plaster, not ink
   float lambert = max(dot(N, L), 0.0);
-  float sky = 0.55 + 0.45 * N.z;
+  float sky = 0.8 + 0.2 * N.z;
   vec2 layerPx = layerOf(v);
 
   float g = (vnoise(layerPx * 0.2) - 0.5) * 0.045 + (vnoise(layerPx * 0.045 + 7.0) - 0.5) * 0.03;
   vec3 albedo = u_albedo * (1.0 + u_grain * g);
-  vec3 land = albedo * (u_ambientColor * sky * (1.0 - 0.35 * m0.g) + u_keyColor * lambert * sh);
+  vec3 land = albedo * (u_ambientColor * sky * (1.0 - 0.10 * m0.g) + u_keyColor * lambert * sh);
   vec3 lake = shadeWater(layerPx, L, sh);
   vec3 col = mix(land, lake, smoothstep(0.35, 0.65, water));
 
   float horiz = max(length(L.xy), 1e-3);
   float m1 = texture(u_mask, maskUv(v + (L.xy / horiz) * u_sidePx)).r;
   float side = clamp(m1 - m0.r, 0.0, 1.0);
-  col *= 1.0 - 0.5 * side * (1.0 - 0.5 * L.z);
+  col *= 1.0 - 0.18 * side * (1.0 - 0.5 * L.z);
 
   col = shoulder(max(col, 0.0));
   fragColor = vec4(toSrgb(col) + (hash21(gl_FragCoord.xy) - 0.5) / 255.0, 1.0);

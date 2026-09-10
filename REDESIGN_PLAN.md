@@ -1,10 +1,10 @@
 # anthonydeguzman.com redesign — "Site model"
 
-Self-contained implementation spec. An agent with no other context should be able to build this end to end from this file alone. Read it fully before touching anything; the decisions in section 2 and the constraints in section 3 are settled.
+Historical implementation specification for the original full-page Toronto relief. The owner subsequently requested an overall redesign with full creative freedom. The current implementation is described in `README.md`; the original decisions below are retained as design history.
 
 Repository: `/Users/anthonydeguzman/Development/anthonydeguzman.github.io` (branch `master`, deployed by GitHub Pages at https://anthonydeguzman.com via `CNAME`). Work on a branch (e.g. `redesign/site-model`); the owner merges to `master`, which is what Pages deploys. If this file is copied into the repo for the handoff (e.g. as `REDESIGN_PLAN.md`), delete it before merging.
 
-> **Status (2026-09-10):** implemented on branch `redesign/site-model` by the planning agent. What remains for whoever picks this up: review in Safari and on a real phone (touch drift, horizontal drag, vertical scroll never captured), merge to `master`, then delete this file. Everything below is the original spec; the settled decisions in section 2 still hold. Two implementation notes that differ from the text: elevation is quantised to 9 bits (R × 256 + B) because the 16-bit low byte was incompressible, and the shadow march uses a uniform near field against a blurred, thresholded mip level of the mask (see `js/shaders.js`).
+> **Status (2026-09-10):** superseded by the owner's subsequent design direction. The circular Toronto model was rejected and removed from the page. The portfolio now uses a typographic opening, original project cover illustrations, solid reading surfaces, expandable career entries, and a blue contact section. The text below describes the earlier full-page treatment and is not the current implementation contract.
 
 ## 1. Context
 

@@ -1,4 +1,4 @@
-// The site model: a plaster relief of Toronto lit by one sun, with the page's display type standing on it.
+// A plaster relief of Toronto, used as a contained hero illustration. Full-page mode also supports raised display type.
 // Raw WebGL2, one program, one full-screen triangle. See js/shaders.js for the coordinate conventions.
 import { VERT, FRAG } from "./shaders.js";
 
@@ -9,11 +9,11 @@ const META = {
 const LAKE_LEVEL = ((META.elevation.lakeM - META.elevation.minM) / (META.elevation.maxM - META.elevation.minM)) ** META.elevation.gamma;
 const DEG = Math.PI / 180;
 const TIERS = {
-  D: { near: 16, far: 8, maxDist: 320, shadowSoft: 5, plateau: 8, parallax: 0.12 },
-  M: { near: 10, far: 6, maxDist: 200, shadowSoft: 5, plateau: 6, parallax: 0.06 }
+  D: { near: 16, far: 8, maxDist: 240, shadowSoft: 3, plateau: 6, parallax: 0.12 },
+  M: { near: 12, far: 6, maxDist: 160, shadowSoft: 3, plateau: 4, parallax: 0.06 }
 };
 const PLASTER = { light: srgbToLinear("#e4e3de"), dark: srgbToLinear("#2e2f33") };
-const WATER = { light: srgbToLinear("#c4cbcf"), dark: srgbToLinear("#14161a") };
+const WATER = { light: srgbToLinear("#d5dadb"), dark: srgbToLinear("#262b30") };
 
 const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
 const lerp = (a, b, t) => a + (b - a) * t;
@@ -38,12 +38,13 @@ function parsePin(value) {
 export async function init(canvas, options = {}) {
   const {
     tier = "D", reducedMotionQuery = null, darkQuery = null, hero = null, terrainUrl = "/assets/terrain/toronto-1024.png",
-    allowSoftwareGL = false, debug = false, pinSun = null, scrollTo = null, og = false
+    allowSoftwareGL = false, debug = false, pinSun = null, scrollTo = null, og = false, contained = false, sunControl = null
   } = options;
   const cfg = TIERS[tier] || TIERS.D;
   const wrapper = canvas.parentElement;
   const root = document.documentElement;
   const coarse = matchMedia("(pointer: coarse)").matches;
+  const raisedContent = !!document.querySelector("[data-relief], [data-engrave]");
 
   const gl = canvas.getContext("webgl2", {
     alpha: false, antialias: false, depth: false, stencil: false, premultipliedAlpha: false,
@@ -59,13 +60,14 @@ export async function init(canvas, options = {}) {
     terrain: { tex: null, image: null, data: null, width: 1, height: 1, originX: 0, originY: 0, cssW: 1, cssH: 1, heightPx: 50, isFallback: false },
     mask: { tex: null, canvas: document.createElement("canvas"), scale: 0.5, docW: 1, docH: 1, baked: false, timer: 0 },
     sun: { az: 90 * DEG, alt: 40 * DEG },
-    pointer: { active: false, weight: 0, az: 0, alt: 0, lastAz: 0 },
-    touch: { dragging: false, lastX: 0, azOffset: 0, id: null },
-    sunrise: { active: false, t0: 0, dur: 1600, fromAlt: -8 * DEG },
+    pointer: { active: false, weight: 0, az: 0, alt: 0 },
+    touch: { dragging: false, startX: 0, startY: 0, lastX: 0, axis: null, azOffset: 0, id: null },
+    sunrise: { active: false, t0: 0, dur: 1800, fromAlt: 16 * DEG, fromAz: 0 },
     drift: coarse,
     dark: !!(darkQuery && darkQuery.matches),
     reduced: !!(reducedMotionQuery && reducedMotionQuery.matches),
     pinned: parsePin(pinSun),
+    manualSun: null,
     animTime: 0, rafId: 0, timerId: 0, lastNow: 0, heroVisible: true, frames: 0, lastFrameMs: 0,
     frameTimes: [], qualityDropped: false, lost: false, disposed: false
   };
@@ -158,8 +160,8 @@ export async function init(canvas, options = {}) {
 
   // ---- layout ----
   function layout() {
-    const vw = root.clientWidth;
-    const vh = window.innerHeight;
+    const vw = contained ? wrapper.clientWidth : root.clientWidth;
+    const vh = contained ? wrapper.clientHeight : window.innerHeight;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     let scale = tier === "D" ? clamp(0.6 * dpr, 0.75, 1.2) : clamp(0.5 * dpr, 0.6, 1.0);
     if (state.qualityDropped) scale = Math.min(scale, 0.5 * dpr, 0.9);
@@ -175,14 +177,15 @@ export async function init(canvas, options = {}) {
   function layoutTerrain() {
     const t = state.terrain;
     const vw = state.viewport.w;
-    const heroH = hero ? hero.getBoundingClientRect().height || state.viewport.h : state.viewport.h;
-    if (tier === "D") t.texelCss = clamp((vw * 1.08) / t.width, 1.0, t.isFallback ? 12 : 4);   // 4% overscan each side
+    const heroH = contained ? state.viewport.h : hero ? hero.getBoundingClientRect().height || state.viewport.h : state.viewport.h;
+    if (contained) t.texelCss = Math.max(vw * 1.18 / t.width, heroH * 1.32 / t.height);
+    else if (tier === "D") t.texelCss = clamp((vw * 1.08) / t.width, 1.0, t.isFallback ? 12 : 4);   // 4% overscan each side
     else t.texelCss = t.isFallback ? 4 : (t.width >= 1024 ? 1.0 : 2.0);
     t.cssW = t.width * t.texelCss;
     t.cssH = t.height * t.texelCss;
-    t.originX = tier === "D" ? (vw - t.cssW) / 2 : vw / 2 - META.anchors.downtownU * t.cssW;
+    t.originX = contained || tier === "D" ? (vw - t.cssW) / 2 : vw / 2 - META.anchors.downtownU * t.cssW;
     t.originY = Math.min(0, heroH * 0.68 - META.anchors.harbourV * t.cssH);
-    t.heightPx = 34 * t.texelCss;
+    t.heightPx = 22 * t.texelCss;
   }
 
   // ---- text mask ----
@@ -196,8 +199,17 @@ export async function init(canvas, options = {}) {
     const m = state.mask;
     const docW = root.clientWidth;
     const docH = Math.max(root.scrollHeight, window.innerHeight);
+    if (!raisedContent) {
+      // The contained model is an illustration, so it needs no document-sized text texture.
+      gl.bindTexture(gl.TEXTURE_2D, m.tex);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array(4));
+      Object.assign(m, { scale: 1, docW, docH, baked: true });
+      state.docH = docH;
+      requestRender();
+      return;
+    }
     const limit = Math.min(maxTexture, 8192);
-    let scale = 0.5;
+    let scale = 0.75;
     if (docH * scale > limit) scale = limit / docH;
     if (docW * scale > limit) scale = Math.min(scale, limit / docW);
     if (docW * docH * scale * scale > 16e6) scale = Math.sqrt(16e6 / (docW * docH));
@@ -291,13 +303,13 @@ export async function init(canvas, options = {}) {
 
   // ---- sun ----
   function arcSun(s) {
-    return { az: (35 + 110 * s) * DEG, alt: (10 + 52 * Math.pow(Math.sin(Math.PI * s), 0.8)) * DEG };
+    return { az: (40 + 100 * s) * DEG, alt: (24 + 34 * Math.pow(Math.sin(Math.PI * s), 0.9)) * DEG };
   }
 
   function readScroll() {
     state.scroll.x = window.scrollX;
     state.scroll.y = window.scrollY;
-    state.scroll.progress = clamp(state.scroll.y / Math.max(1, state.docH - state.viewport.h), 0, 1);
+    state.scroll.progress = clamp(state.scroll.y / Math.max(1, state.docH - window.innerHeight), 0, 1);
   }
 
   function updateSun(now, dt) {
@@ -305,34 +317,36 @@ export async function init(canvas, options = {}) {
     const sun = state.sun;
     if (state.pinned) { sun.az = state.pinned.az; sun.alt = state.pinned.alt; return false; }
     if (state.reduced) { sun.az = 120 * DEG; sun.alt = 40 * DEG; return false; }
-    const base = arcSun(state.scroll.progress);
-    let driftOn = false;
-    if (state.drift && state.heroVisible && !state.sunrise.active) {
-      const t = now / 1000;
-      base.az += 6 * DEG * Math.sin((t * 2 * Math.PI) / 38);
-      base.alt += 2.5 * DEG * Math.sin((t * 2 * Math.PI) / 51 + 1.3);
-      driftOn = true;
+    const base = state.manualSun ? { ...state.manualSun } : arcSun(state.scroll.progress);
+    const driftOn = state.drift && state.heroVisible && !state.manualSun;
+    if (driftOn && !state.sunrise.active) {
+      const t = state.animTime;
+      base.az += 4 * DEG * Math.sin((t * 2 * Math.PI) / 38);
+      base.alt += 1.5 * DEG * Math.sin((t * 2 * Math.PI) / 51);
     }
     const touch = state.touch;
-    base.az += touch.azOffset;
+    base.az = clamp(base.az + touch.azOffset, 15 * DEG, 165 * DEG);
     if (!touch.dragging) {
       touch.azOffset *= 1 - k(4);
       if (Math.abs(touch.azOffset) < 2e-3) touch.azOffset = 0;
     }
     const p = state.pointer;
     const targetW = p.active && !state.sunrise.active ? 1 : 0;
-    p.weight += (targetW - p.weight) * k(targetW ? 0.12 : 0.35);
+    p.weight += (targetW - p.weight) * k(targetW ? 0.22 : 0.55);
     if (Math.abs(p.weight - targetW) < 0.02) p.weight = targetW;
     const goalAz = base.az + shortest(base.az, p.az) * p.weight;
     const goalAlt = lerp(base.alt, p.alt, p.weight);
-    sun.az += shortest(sun.az, goalAz) * k(0.14);
-    sun.alt += (goalAlt - sun.alt) * k(0.14);
+    sun.az += shortest(sun.az, goalAz) * k(0.26);
+    sun.alt += (goalAlt - sun.alt) * k(0.26);
     if (state.sunrise.active) {
       const u = Math.min(1, (now - state.sunrise.t0) / state.sunrise.dur);
-      const ease = 1 - Math.pow(1 - u, 3);
+      const ease = u * u * (3 - 2 * u);
+      sun.az = state.sunrise.fromAz + shortest(state.sunrise.fromAz, goalAz) * ease;
       sun.alt = state.sunrise.fromAlt + (goalAlt - state.sunrise.fromAlt) * ease;
       if (u >= 1) state.sunrise.active = false;
     }
+    // Keep touch drift alive after the opening sweep, at a capped cadence even while the sun is easing.
+    if (driftOn && !state.sunrise.active && !p.active && p.weight === 0 && !touch.dragging) return "drift";
     const settled = !state.sunrise.active
       && Math.abs(shortest(sun.az, goalAz)) < 3e-4
       && Math.abs(goalAlt - sun.alt) < 3e-4
@@ -345,20 +359,20 @@ export async function init(canvas, options = {}) {
 
   function lightUniforms() {
     const { az, alt } = state.sun;
-    const sAlt = Math.max(Math.sin(alt), 0.45);
+    const sAlt = Math.max(Math.sin(alt), 0.22);
     const on = smoothstep(-2 * DEG, 5 * DEG, alt);
-    const warmth = smoothstep(2 * DEG, 30 * DEG, alt);
+    const warmth = smoothstep(16 * DEG, 50 * DEG, alt);
     const mix3 = (a, b, t) => a.map((x, i) => lerp(x, b[i], t));
     const scale3 = (a, s) => a.map((x) => x * s);
     let key; let ambient; let albedo; let water; let grain; let glint; let sheen;
     if (!state.dark) {
-      albedo = PLASTER.light; water = WATER.light; grain = 1.0; glint = 0.5; sheen = 0.16;
-      ambient = scale3([0.42, 0.44, 0.48], 0.85 + 0.15 * warmth);
-      key = scale3(mix3([1.0, 0.72, 0.52], [1.0, 0.97, 0.92], warmth), (0.58 / sAlt) * on);
+      albedo = PLASTER.light; water = WATER.light; grain = 0.55; glint = 0.22; sheen = 0.035;
+      ambient = mix3([0.65, 0.67, 0.71], [0.68, 0.69, 0.71], warmth);
+      key = scale3(mix3([1.0, 0.89, 0.76], [1.0, 0.97, 0.91], warmth), (lerp(0.35, 0.32, warmth) / sAlt) * on);
     } else {
-      albedo = PLASTER.dark; water = WATER.dark; grain = 0.6; glint = 0.6; sheen = 0.02;
-      ambient = [0.2, 0.21, 0.24];
-      key = scale3([1.0, 0.82, 0.62], (0.72 / sAlt) * on);
+      albedo = PLASTER.dark; water = WATER.dark; grain = 0.4; glint = 0.018; sheen = 0.002;
+      ambient = [0.48, 0.52, 0.60];
+      key = scale3([1.0, 0.88, 0.72], (0.50 / sAlt) * on);
     }
     const light = [Math.cos(alt) * Math.cos(az), Math.cos(alt) * Math.sin(az), Math.sin(alt)];
     return { light, key, ambient, albedo, water, grain, glint, sheen };
@@ -376,14 +390,16 @@ export async function init(canvas, options = {}) {
     gl.bindTexture(gl.TEXTURE_2D, m.tex);
     gl.uniform2f(uniforms.u_viewport, state.viewport.w, state.viewport.h);
     gl.uniform1f(uniforms.u_renderScale, state.renderScale);
-    gl.uniform2f(uniforms.u_scroll, state.scroll.x, state.scroll.y);
-    gl.uniform1f(uniforms.u_parallax, state.reduced ? 1.0 : cfg.parallax);
+    gl.uniform2f(uniforms.u_scroll, contained ? 0 : state.scroll.x, contained ? 0 : state.scroll.y);
+    gl.uniform1f(uniforms.u_parallax, contained ? 0 : state.reduced ? 1.0 : cfg.parallax);
     gl.uniform2f(uniforms.u_terrainOrigin, t.originX, t.originY);
     gl.uniform2f(uniforms.u_terrainSize, t.cssW, t.cssH);
     gl.uniform2f(uniforms.u_docSize, m.docW, m.docH);
+    gl.uniform1f(uniforms.u_maskScale, m.scale);
     gl.uniform1f(uniforms.u_terrainHeight, t.heightPx);
-    gl.uniform1f(uniforms.u_plateau, m.baked ? cfg.plateau : 0);
-    gl.uniform1f(uniforms.u_groove, m.baked ? 3.0 : 0);
+    gl.uniform1f(uniforms.u_normalStep, t.texelCss * 2.0);
+    gl.uniform1f(uniforms.u_plateau, raisedContent && m.baked ? cfg.plateau : 0);
+    gl.uniform1f(uniforms.u_groove, raisedContent && m.baked ? 0.8 : 0);
     gl.uniform3fv(uniforms.u_light, lt.light);
     gl.uniform3fv(uniforms.u_keyColor, lt.key);
     gl.uniform3fv(uniforms.u_ambientColor, lt.ambient);
@@ -392,15 +408,16 @@ export async function init(canvas, options = {}) {
     gl.uniform1f(uniforms.u_time, state.animTime);
     gl.uniform1f(uniforms.u_grain, lt.grain);
     gl.uniform1f(uniforms.u_shadowSoft, cfg.shadowSoft);
-    gl.uniform1f(uniforms.u_sidePx, 2.5);
+    gl.uniform1f(uniforms.u_sidePx, 1.0);
     gl.uniform1f(uniforms.u_glint, lt.glint);
     gl.uniform1f(uniforms.u_sheen, lt.sheen);
     gl.uniform1f(uniforms.u_lakeLevel, LAKE_LEVEL);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
+    if (sunControl && document.activeElement !== sunControl) sunControl.value = String(Math.round(state.sun.az / DEG));
   }
 
   function requestRender() {
-    if (state.disposed || state.lost || state.rafId || document.hidden) return;
+    if (state.disposed || state.lost || state.rafId || document.hidden || (contained && !state.heroVisible)) return;
     state.rafId = requestAnimationFrame(frame);
   }
 
@@ -408,7 +425,8 @@ export async function init(canvas, options = {}) {
     state.rafId = 0;
     clearTimeout(state.timerId);
     state.timerId = 0;
-    const dt = Math.min(0.05, (now - state.lastNow) / 1000 || 0);
+    const elapsed = (now - state.lastNow) / 1000 || 0;
+    const dt = Math.min(0.1, elapsed);
     state.lastNow = now;
     readScroll();
     const status = updateSun(now, dt);
@@ -418,7 +436,7 @@ export async function init(canvas, options = {}) {
     state.lastFrameMs = performance.now() - started;
     state.frames += 1;
     // Frame cadence during the sunrise is the honest GPU-pressure signal (submit time is always tiny).
-    if (state.sunrise.active && dt > 0) state.frameTimes.push(dt * 1000);
+    if (state.sunrise.active && elapsed > 0) state.frameTimes.push(elapsed * 1000);
     else if (state.frameTimes.length) adaptQuality();
     if (status === "drift") state.timerId = setTimeout(requestRender, 1000 / 24);
     else if (status) requestRender();
@@ -445,24 +463,29 @@ export async function init(canvas, options = {}) {
   }
 
   function heroPointer(event) {
+    state.manualSun = null;
     const rect = hero.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    const dx = event.clientX - cx;
-    const dy = -(event.clientY - cy);
-    const d = Math.hypot(dx, dy) / (0.5 * Math.hypot(rect.width, rect.height));
-    const p = state.pointer;
-    const az = d < 0.05 ? p.lastAz : Math.atan2(dy, dx);
-    const alt = lerp(70, 8, smoothstep(0.05, 1, d)) * DEG;
-    Object.assign(p, { az, alt, lastAz: az, active: true });
+    const x = clamp((event.clientX - rect.left) / rect.width, 0, 1);
+    const y = clamp((event.clientY - rect.top) / rect.height, 0, 1);
+    // A broad overhead light: crossing the centre never flips the terrain inside out.
+    const az = lerp(150, 30, x) * DEG;
+    const alt = (lerp(48, 22, y) + 6 * Math.sin(Math.PI * x)) * DEG;
+    Object.assign(state.pointer, { az, alt, active: true });
   }
 
-  if (hero && !state.reduced && !state.pinned) {
+  if (hero && !state.pinned) {
     on(hero, "pointermove", (event) => {
+      if (state.reduced || event.target.closest("input, label, a")) return;
       if (event.pointerType === "touch") {
         const touch = state.touch;
         if (!touch.dragging || event.pointerId !== touch.id) return;
-        touch.azOffset += (event.clientX - touch.lastX) * 0.35 * DEG;
+        const dx = Math.abs(event.clientX - touch.startX);
+        const dy = Math.abs(event.clientY - touch.startY);
+        if (!touch.axis && Math.max(dx, dy) > 8) touch.axis = dx > dy * 1.2 ? "x" : "y";
+        if (touch.axis === "x") {
+          state.manualSun = null;
+          touch.azOffset = clamp(touch.azOffset + (event.clientX - touch.lastX) * -0.22 * DEG, -50 * DEG, 50 * DEG);
+        }
         touch.lastX = event.clientX;
       } else {
         heroPointer(event);
@@ -470,19 +493,33 @@ export async function init(canvas, options = {}) {
       requestRender();
     });
     on(hero, "pointerleave", (event) => {
-      if (event.pointerType === "touch") return;
+      if (state.reduced || event.pointerType === "touch") return;
       state.pointer.active = false;
       requestRender();
     });
     on(hero, "pointerdown", (event) => {
-      if (event.pointerType !== "touch") return;
-      Object.assign(state.touch, { dragging: true, lastX: event.clientX, id: event.pointerId });
+      if (state.reduced || event.pointerType !== "touch") return;
+      Object.assign(state.touch, { dragging: true, startX: event.clientX, startY: event.clientY, lastX: event.clientX, axis: null, id: event.pointerId });
     });
-    const endTouch = () => { state.touch.dragging = false; state.touch.id = null; requestRender(); };
+    const endTouch = () => {
+      if (!state.touch.dragging) return;
+      state.touch.dragging = false;
+      state.touch.id = null;
+      requestRender();
+    };
     on(hero, "pointerup", endTouch);
     on(hero, "pointercancel", endTouch);
     on(window, "pointerup", endTouch);
   }
+
+  if (sunControl && !state.pinned) on(sunControl, "input", () => {
+    if (state.reduced) return;
+    state.manualSun = { az: clamp(Number(sunControl.value), 25, 155) * DEG, alt: 32 * DEG };
+    state.sunrise.active = false;
+    Object.assign(state.pointer, { active: false, weight: 0 });
+    state.touch.azOffset = 0;
+    requestRender();
+  });
 
   on(window, "scroll", requestRender);
   on(document, "visibilitychange", () => {
@@ -497,15 +534,24 @@ export async function init(canvas, options = {}) {
     }
   });
   if (darkQuery) on(darkQuery, "change", (event) => { state.dark = event.matches; requestRender(); });
-  if (reducedMotionQuery) on(reducedMotionQuery, "change", (event) => { state.reduced = event.matches; requestRender(); });
+  if (reducedMotionQuery) on(reducedMotionQuery, "change", (event) => {
+    state.reduced = event.matches;
+    state.sunrise.active = false;
+    state.manualSun = null;
+    Object.assign(state.pointer, { active: false, weight: 0 });
+    Object.assign(state.touch, { dragging: false, azOffset: 0, id: null });
+    requestRender();
+  });
   if (document.fonts) on(document.fonts, "loadingdone", scheduleRebake);
 
-  const resizeObserver = new ResizeObserver(() => {
+  function resize() {
     if (state.disposed || state.lost) return;
     layout();
     requestRender();
     scheduleRebake();
-  });
+  }
+  const resizeObserver = new ResizeObserver(resize);
+  on(window, "resize", resize);
   let heroObserver = null;
   if (hero) {
     heroObserver = new IntersectionObserver(([entry]) => {
@@ -517,6 +563,8 @@ export async function init(canvas, options = {}) {
   on(canvas, "webglcontextlost", (event) => {
     event.preventDefault();
     state.lost = true;
+    // Context loss invalidates every GL handle; compile() must not delete the old program after restoration.
+    program = null;
     if (state.rafId) cancelAnimationFrame(state.rafId);
     clearTimeout(state.timerId);
     state.rafId = 0;
@@ -557,17 +605,20 @@ export async function init(canvas, options = {}) {
   if (!state.reduced && !state.pinned) {
     state.sunrise.active = true;
     state.sunrise.t0 = performance.now();
+    state.sunrise.fromAz = start.az - 18 * DEG;
+    state.sun.az = state.sunrise.fromAz;
     state.sun.alt = state.sunrise.fromAlt;
-  }
+  } else updateSun(state.lastNow, 0);
   draw();
   state.frames += 1;
   wrapper.classList.add("is-rendered");
   root.classList.add("relief-on");
   resizeObserver.observe(root);
+  if (contained) resizeObserver.observe(wrapper);
   if (heroObserver) heroObserver.observe(hero);
   if (scrollTo !== null && scrollTo !== undefined && scrollTo !== "") {
     const fraction = clamp(Number(scrollTo) || 0, 0, 1);
-    window.scrollTo(0, Math.round(fraction * Math.max(0, state.docH - state.viewport.h)));
+    window.scrollTo(0, Math.round(fraction * Math.max(0, state.docH - window.innerHeight)));
     state.sunrise.active = false;
     readScroll();
     const pinnedArc = arcSun(state.scroll.progress);
